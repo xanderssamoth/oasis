@@ -1,4 +1,4 @@
 RewriteEngine on
 
-RewriteRule ^admin/([a-z]+)$ admin/$1.php
-RewriteRule ^([a-z]+)$ public/$1.php [L]
+RewriteRule ^admin/([a-z]+)$    admin/$1.php
+RewriteRule ^([a-z]+)$          public/$1.php [L]
