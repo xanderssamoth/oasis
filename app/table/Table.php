@@ -22,15 +22,15 @@ class Table {
         return static::$table;
     }
 
-    public static function findAll() {
+    public static function trouverTout() {
         return App::getDb()->mQuery('SELECT * FROM ' . static::$table, get_called_class());
     }
 
-    public static function findById($id) {
+    public static function trouverParId($id) {
         return App::getDb()->mPrepare('SELECT * FROM ' . static::$table . ' WHERE id = ?', [$id], get_called_class());
     }
 
-    public static function delete($id) {
+    public static function supprimer($id) {
         return App::getDb()->mDelete('DELETE FROM ' . static::$table . ' WHERE id = ?', [$id], get_called_class());
     }
 
