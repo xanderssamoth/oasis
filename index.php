@@ -3,8 +3,10 @@
 require './app/Autoloader.php';
 
 app\Autoloader::register();
+session_start();
 
 use app\table\Evenement;
+use app\table\Utilisateur;
 
 $listeEvenements = Evenement::trouverTout();
 ?>
@@ -51,11 +53,16 @@ $listeEvenements = Evenement::trouverTout();
             <i class="icon_menu"></i>
         </div>
         <div class="offcanvas-menu-wrapper">
-            <div class="canvas-close">
+            <div class="canvas-close mb-5">
                 <i class="icon_close"></i>
             </div>
-            <div class="search-icon search-switch">
-                <i class="icon_search"></i>
+            <div class="text-center mb-4">
+                <a href="./">
+                    <img src="assets/img/logo.png" alt="logo" width="100">
+                </a>
+            </div>
+            <div class="header-configure-area">
+                <a href="./booking" class="bk-btn">Réserver la salle</a>
             </div>
             <nav class="mainmenu mobile-menu">
                 <ul>
@@ -64,6 +71,26 @@ $listeEvenements = Evenement::trouverTout();
                     <li><a href="./booking">Réserver</a></li>
                 </ul>
             </nav>
+            <div id="mobile-menu-wrap"></div>
+
+<?php
+if (isset($_SESSION['id'])) {
+    $utilisateurEnCours = Utilisateur::trouverParId($_SESSION['id']);
+?>
+            <div class="dropdown mt-4 search-switch">
+                <a href="#" role="button" class="btn dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="<?= $utilisateurEnCours->avatar_url != null ? $utilisateurEnCours->avatar_url : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                    <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours->prenom ?></span>
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="#menuProfil">
+                    <a class="dropdown-item" href="./account">Mon compte</a>
+                    <a class="dropdown-item" href="./operations/deconnexion.php">Déconnexion</a>
+                </div>
+            </div>
+<?php
+}
+?>
         </div>
         <!-- Offcanvas Menu Section End -->
 
@@ -88,9 +115,25 @@ $listeEvenements = Evenement::trouverTout();
                                         <li><a href="./booking">Réserver</a></li>
                                     </ul>
                                 </nav>
-                                <div class="nav-right search-switch">
-                                    <i class="icon_search"></i>
+
+<?php
+if (isset($_SESSION['id'])) {
+    $utilisateurEnCours = Utilisateur::trouverParId($_SESSION['id']);
+?>
+                                <div class="dropdown nav-right search-switch">
+                                    <a href="#" role="button" class="btn py-0 dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="<?= $utilisateurEnCours->avatar_url != null ? $utilisateurEnCours->avatar_url : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                                        <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours->prenom ?></span>
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="#menuProfil">
+                                        <a class="dropdown-item" href="./account">Mon compte</a>
+                                        <a class="dropdown-item" href="./operations/deconnexion.php">Déconnexion</a>
+                                    </div>
                                 </div>
+<?php
+}
+?>
                             </div>
                         </div>
                     </div>
@@ -103,11 +146,32 @@ $listeEvenements = Evenement::trouverTout();
         <section class="hero-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-lg-6">
                         <div class="hero-text">
                             <h1>Salle <span class="text-warning">Oasis</span></h1>
                             <p style="font-size: 1.3rem;">Location pour les fêtes, les funérailles, les conférences et autres événements.</p>
                             <a href="#" class="primary-btn">Réserver la salle</a>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
+                        <div class="booking-form">
+                            <h3 class="text-center">Se connecter</h3>
+                            <form action="./operations/connexion.php">
+                                <div class="check-date">
+                                    <label for="login_email" class="sr-only">E-mail :</label>
+                                    <input type="text" name="login_email" id="login_email" placeholder="E-mail" style="text-transform: inherit!important;">
+                                    <i class="icon_profile"></i>
+                                </div>
+
+                                <div class="check-date">
+                                    <label for="login_password" class="sr-only">Mot de passe :</label>
+                                    <input type="password" name="login_password" id="login_password" placeholder="Mot de passe" style="text-transform: inherit!important;">
+                                    <i class="icon_lock-open_alt"></i>
+                                </div>
+
+                                <button type="submit">Connexion</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -167,6 +231,7 @@ endforeach;
 
         <!-- Js Plugins -->
         <script src="assets/js/jquery-3.3.1.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/jquery.magnific-popup.min.js"></script>
         <script src="assets/js/jquery.nice-select.min.js"></script>
