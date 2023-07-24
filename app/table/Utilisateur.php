@@ -64,7 +64,7 @@ class Utilisateur extends Table {
                         . 'utilisateurs.email email_util, utilisateurs.telephone telephone_util, utilisateurs.sexe sexe_util, utilisateurs.date_de_naissance dateDeNaissance_util, '
                         . 'utilisateurs.avatar_url profil_util, utilisateurs.creee_a creeeA_util, utilisateurs.modifiee_a modifieeA_util, utilisateurs.id_role idRole_util, utilisateurs.id_etat idEtat_util, '
                         . 'roles.id id_rol, roles.nom_role nom_rol, roles.description_role descript_rol, roles.creee_a creeeA_rol, roles.modifiee_a modifieeA_rol, '
-                        . 'etats.id id_eta, etats.nom_etat nom_eta, etats.description_etat descript_eta, etats.creee_a creeeA_eta, etats.modifiee_a modifieeA_eta '
+                        . 'etats.id id_eta, etats.nom_etat nom_eta, etats.description_etat descript_eta, etats.couleur couleur_eta, etats.creee_a creeeA_eta, etats.modifiee_a modifieeA_eta '
                         . 'FROM utilisateurs '
                         . 'INNER JOIN roles '
                         . 'INNER JOIN etats '

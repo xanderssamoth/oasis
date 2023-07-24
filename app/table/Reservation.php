@@ -41,7 +41,7 @@ class Reservation extends Table {
                         . 'utilisateurs.id id_util, utilisateurs.prenom prenom_util, utilisateurs.nom nom_util, utilisateurs.post_nom postnom_util, '
                         . 'utilisateurs.email email_util, utilisateurs.telephone telephone_util, utilisateurs.sexe sexe_util, utilisateurs.date_de_naissance dateDeNaissance_util, '
                         . 'utilisateurs.avatar_url profil_util, utilisateurs.creee_a creeeA_util, utilisateurs.modifiee_a modifieeA_util, utilisateurs.id_role idRole_util, utilisateurs.id_etat idEtat_util, '
-                        . 'etats.id id_eta, etats.nom_etat nom_eta, etats.description_etat descript_eta, etats.creee_a creeeA_eta, etats.modifiee_a modifieeA_eta '
+                        . 'etats.id id_eta, etats.nom_etat nom_eta, etats.description_etat descript_eta, etats.couleur couleur_eta, etats.creee_a creeeA_eta, etats.modifiee_a modifieeA_eta '
                         . 'FROM reservations, utilisateurs, evenements, etats '
                         . 'WHERE reservations.id_utilisateur = utilisateurs.id AND reservations.id_evenement = evenements.id AND reservations.id_etat = etats.id');
     }
@@ -54,7 +54,7 @@ class Reservation extends Table {
                         . 'utilisateurs.id id_util, utilisateurs.prenom prenom_util, utilisateurs.nom nom_util, utilisateurs.post_nom postnom_util, '
                         . 'utilisateurs.email email_util, utilisateurs.telephone telephone_util, utilisateurs.sexe sexe_util, utilisateurs.date_de_naissance dateDeNaissance_util, '
                         . 'utilisateurs.avatar_url profil_util, utilisateurs.creee_a creeeA_util, utilisateurs.modifiee_a modifieeA_util, utilisateurs.id_role idRole_util, utilisateurs.id_etat idEtat_util, '
-                        . 'etats.id id_eta, etats.nom_etat nom_eta, etats.description_etat descript_eta, etats.creee_a creeeA_eta, etats.modifiee_a modifieeA_eta '
+                        . 'etats.id id_eta, etats.nom_etat nom_eta, etats.description_etat descript_eta, etats.couleur couleur_eta, etats.creee_a creeeA_eta, etats.modifiee_a modifieeA_eta '
                         . 'FROM reservations, utilisateurs, evenements, etats '
                         . 'WHERE reservations.id_utilisateur = utilisateurs.id AND reservations.id_evenement = evenements.id AND reservations.id_etat = etats.id AND utilisateurs.id = ?', [$idUtilisateur]);
     }
