@@ -180,3 +180,43 @@ if (isset($_SESSION['id'])) {
             </div>
         </header>
         <!-- Header End -->
+
+<?php
+if (isset($_SESSION['reussi'])) {
+?>
+        <!-- Alert Begin -->
+        <div class="container position-relative">
+            <div class="row position-absolute w-100" style="top: -20px; z-index: 999;">
+                <div class="col-lg-5 col-sm-7 col-11 mx-auto">
+                    <div class="alert alert-success alert-dismissible fade show px-2 py-4 text-center" role="alert">
+                        <i class="fa fa-info-circle mr-2"></i><?= $_SESSION['reussi'] ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Alert End -->
+<?php
+}
+
+if (isset($_SESSION['erreur'])) {
+?>
+        <!-- Alert Begin -->
+        <div class="container position-relative">
+            <div class="row position-absolute w-100" style="top: -20px; z-index: 999;">
+                <div class="col-lg-5 col-sm-7 col-11 mx-auto">
+                    <div class="alert alert-danger alert-dismissible fade show px-2 py-4 text-center" role="alert">
+                        <i class="fa fa-exclamation-triangle mr-2"></i><?= $_SESSION['erreur'] ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Alert End -->
+<?php
+}
+?>

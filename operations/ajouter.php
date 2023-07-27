@@ -22,14 +22,14 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
     $email = $_POST['register_email'];
     $telephone = $_POST['register_telephone'];
     $sexe = $_POST['register_sexe'];
-    $dateDeNaissance = explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . explode('/', $_POST['register_date_de_naissance'])[0];
+    $dateDeNaissance = !empty($_POST['register_date_de_naissance']) ? explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . explode('/', $_POST['register_date_de_naissance'])[0] : null;
     $motDePasse = sha1($_POST['register_mot_de_passe']);
     $confirmerMotDePasse = $_POST['confirmer_mot_de_passe'];
 
     if ($_POST['register_mot_de_passe'] != $confirmerMotDePasse) {
         session_start();
 
-        $_SESSION['erreur'] = 'Veuillez confirmer le mote de passe';
+        $_SESSION['erreur'] = 'Veuillez confirmer le mot de passe';
 
         header('Location: ../register');
 
@@ -37,7 +37,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
         $etat_active = Etat::creer('Activé', 'Fonctionnement normal dans tous les espaces de l\'application.', 'success');
         $role_admin = Role::creer('Administrateur', 'Gestion des clients, des réservations, des événements et autres.');
 
-        Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $role_admin->id, $etat_active->id);
+        Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $role_admin[0]->id, $etat_active[0]->id);
 
         session_start();
 

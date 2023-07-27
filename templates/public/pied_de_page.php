@@ -36,7 +36,6 @@
         </script>
     </body>
 </html>
-
 <?php
 if (isset($_SESSION['reussi'])) {
     unset($_SESSION['reussi']);
