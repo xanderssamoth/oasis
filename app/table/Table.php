@@ -22,6 +22,10 @@ class Table {
         return static::$table;
     }
 
+    public static function compterTout() {
+        return App::getDb()->mQuery('SELECT COUNT(*) FROM ' . static::$table, get_called_class());
+    }
+
     public static function trouverTout() {
         return App::getDb()->mQuery('SELECT * FROM ' . static::$table, get_called_class());
     }
