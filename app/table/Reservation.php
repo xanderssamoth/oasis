@@ -17,9 +17,11 @@ class Reservation extends Table {
 
     // Enregistrer une réservation
     public static function creer($idUtilisateur, $idEvenement, $date, $heureDebut, $heureFin, $idEtat) {
-        return App::getDb()->mInsert('INSERT INTO reservations (id_utilisateur, id_evenement, date, heure_debut, heure_fin, id_etat) '
-                        . 'VALUES (:id_utilisateur, :id_evenement, :date, :heure_debut, :heure_fin, :id_etat);', 
+        $nouvel_id = App::getDb()->mInsertReturnID('INSERT INTO reservations (id_utilisateur, id_evenement, date, heure_debut, heure_fin, id_etat) VALUES (:id_utilisateur, :id_evenement, :date, :heure_debut, :heure_fin, :id_etat);', 
                         array('id_utilisateur' => $idUtilisateur, 'id_evenement' => $idEvenement, 'date' => $date, 'heure_debut' => $heureDebut, 'heure_fin' => $heureFin, 'id_etat' => $idEtat), __CLASS__);
+        $reservation = self::trouverParId($nouvel_id);
+
+        return $reservation;
     }
 
     // Modifier une réservation

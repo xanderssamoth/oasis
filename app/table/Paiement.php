@@ -17,9 +17,11 @@ class Paiement extends Table {
 
     // Enregistrer un paiement
     public static function creer($reference, $referenceFournisseur, $numeroCommande, $montant, $montantClient, $monnaie, $canal, $idUtilisateur, $idReservation, $idEtat) {
-        return App::getDb()->mInsert('INSERT INTO paiements (reference, reference_fournisseur, numero_commande, montant, montant_client, monnaie, canal, id_utilisateur, id_reservation, id_etat) '
-                        . 'VALUES (:reference, :reference_fournisseur, :numero_commande, :montant, :montant_client, :monnaie, :canal, :id_utilisateur, :id_reservation, :id_etat);', 
+        $nouvel_id = App::getDb()->mInsertReturnID('INSERT INTO paiements (reference, reference_fournisseur, numero_commande, montant, montant_client, monnaie, canal, id_utilisateur, id_reservation, id_etat) VALUES (:reference, :reference_fournisseur, :numero_commande, :montant, :montant_client, :monnaie, :canal, :id_utilisateur, :id_reservation, :id_etat);', 
                         array('reference' => $reference, 'reference_fournisseur' => $referenceFournisseur, 'numero_commande' => $numeroCommande, 'montant' => $montant, 'montant_client' => $montantClient, 'monnaie' => $monnaie, 'canal' => $canal, 'id_utilisateur' => $idUtilisateur, 'id_reservation' => $idReservation, 'id_etat' => $idEtat), __CLASS__);
+        $paiement = self::trouverParId($nouvel_id);
+
+        return $paiement;
     }
 
     // Modifier un paiement

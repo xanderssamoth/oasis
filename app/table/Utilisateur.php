@@ -17,9 +17,12 @@ class Utilisateur extends Table {
 
     // Enregistrer un utilisateur
     public static function creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $idRole, $idEtat) {
-        return App::getDb()->mInsert('INSERT INTO utilisateurs (prenom, nom, post_nom, email, telephone, sexe, date_de_naissance, id_role, id_etat) '
+        $nouvel_id = App::getDb()->mInsertReturnID('INSERT INTO utilisateurs (prenom, nom, post_nom, email, telephone, sexe, date_de_naissance, id_role, id_etat) '
                         . 'VALUES (:prenom, :nom, :post_nom, :email, :telephone, :sexe, :date_de_naissance, :id_role, :id_etat);', 
                         array('prenom' => $prenom, 'nom' => $nom, 'post_nom' => $postNom, 'email' => $email, 'telephone' => $telephone, 'sexe' => $sexe, 'date_de_naissance' => $dateDeNaissance, 'id_role' => $idRole, 'id_etat' => $idEtat), __CLASS__);
+        $utilisateur = self::trouverParId($nouvel_id);
+
+        return $utilisateur;
     }
 
     // Modifier un utilisateur

@@ -1,3 +1,15 @@
+<?php
+
+require './../app/Autoloader.php';
+
+app\Autoloader::register();
+session_start();
+
+use app\table\Evenement;
+use app\table\Utilisateur;
+
+$listeEvenements = Evenement::trouverTout();
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -8,33 +20,44 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
         <!-- Favicon -->
-        <link rel="shortcut icon" type="images/png" href="../../assets/img/icon.png">
+        <link rel="shortcut icon" type="images/png" href="./assets/img/icon.png">
 
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
 
-        <!-- CSS Styles -->
-        <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="../../assets/css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="../../assets/css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="../../assets/css/flaticon.css" type="text/css">
-        <link rel="stylesheet" href="../../assets/css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="../../assets/css/nice-select.css" type="text/css">
-        <link rel="stylesheet" href="../../assets/css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="../../assets/css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="../../assets/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="../../assets/css/style.css" type="text/css">
+        <!-- Css Styles -->
+        <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/elegant-icons.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/flaticon.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/owl.carousel.min.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/nice-select.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/magnific-popup.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/slicknav.min.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+        <style>
+            .booking-form input {text-transform: inherit!important;}
+        </style>
 
         <title>
             Oasis | 
 <?php
+if ($_SERVER['PHP_SELF'] == '/webapp/oasis/public/register.php') {
+?>
+            Inscription
+<?php
+}
+
 if ($_SERVER['PHP_SELF'] == '/webapp/oasis/public/account.php') {
 ?>
             Profil
 <?php
 }
 ?>
+
         </title>
     </head>
 
@@ -50,98 +73,65 @@ if ($_SERVER['PHP_SELF'] == '/webapp/oasis/public/account.php') {
             <i class="icon_menu"></i>
         </div>
         <div class="offcanvas-menu-wrapper">
-            <div class="canvas-close">
+            <div class="canvas-close mb-5">
                 <i class="icon_close"></i>
             </div>
-            <div class="search-icon search-switch">
-                <i class="icon_search"></i>
+            <div class="text-center mb-4">
+                <a href="./">
+                    <img src="./assets/img/logo.png" alt="logo" width="100">
+                </a>
             </div>
             <div class="header-configure-area">
-                <div class="language-option">
-                    <img src="assets/img/flag.jpg" alt="">
-                    <span>EN <i class="fa fa-angle-down"></i></span>
-                    <div class="flag-dropdown">
-                        <ul>
-                            <li><a href="#">Zi</a></li>
-                            <li><a href="#">Fr</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <a href="#" class="bk-btn">Booking Now</a>
+<?php
+if (isset($_SESSION['id'])) {
+?>
+                <a href="./booking" class="bk-btn">Réserver la salle</a>
+<?php
+} else {
+?>
+                <a href="javascript:return false;" class="bk-btn" onclick="document.querySelector('.offcanvas-menu-wrapper').classList.remove('show-offcanvas-menu-wrapper'); document.querySelector('.offcanvas-menu-overlay').classList.remove('active'); document.getElementById('login_warning').classList.remove('d-none'); document.getElementById('login_email').focus();">Réserver la salle</a>
+<?php
+}
+?>
             </div>
             <nav class="mainmenu mobile-menu">
                 <ul>
-                    <li class="active"><a href="./index.html">Home</a></li>
-                    <li><a href="./rooms.html">Rooms</a></li>
-                    <li><a href="./about-us.html">About Us</a></li>
-                    <li><a href="./pages.html">Pages</a>
-                        <ul class="dropdown">
-                            <li><a href="./room-details.html">Room Details</a></li>
-                            <li><a href="./blog-details.html">Blog Details</a></li>
-                            <li><a href="#">Family Room</a></li>
-                            <li><a href="#">Premium Room</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="./blog.html">News</a></li>
-                    <li><a href="./contact.html">Contact</a></li>
+                    <li class="active"><a href="./">Accueil</a></li>
+                    <li><a href="./about">A propos</a></li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
-            <div class="top-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-tripadvisor"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
+
+<?php
+if (isset($_SESSION['id'])) {
+    $utilisateurEnCours = Utilisateur::trouverParId($_SESSION['id']);
+?>
+            <div class="dropdown mt-4 search-switch">
+                <a href="#" role="button" class="btn dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="<?= $utilisateurEnCours->avatar_url != null ? $utilisateurEnCours->avatar_url : './assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                    <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours->prenom ?></span>
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="#menuProfil">
+                    <a class="dropdown-item" href="./account">Mon compte</a>
+                    <a class="dropdown-item" href="./operations/deconnexion.php">Déconnexion</a>
+                </div>
             </div>
-            <ul class="top-widget">
-                <li><i class="fa fa-phone"></i> (12) 345 67890</li>
-                <li><i class="fa fa-envelope"></i> info.colorlib@gmail.com</li>
-            </ul>
+<?php
+}
+?>
         </div>
         <!-- Offcanvas Menu Section End -->
 
         <!-- Header Section Begin -->
         <header class="header-section header-normal">
-            <div class="top-nav">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="tn-left">
-                                <li><i class="fa fa-phone"></i> (12) 345 67890</li>
-                                <li><i class="fa fa-envelope"></i> info.colorlib@gmail.com</li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="tn-right">
-                                <div class="top-social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-tripadvisor"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                </div>
-                                <a href="#" class="bk-btn">Booking Now</a>
-                                <div class="language-option">
-                                    <img src="assets/img/flag.jpg" alt="">
-                                    <span>EN <i class="fa fa-angle-down"></i></span>
-                                    <div class="flag-dropdown">
-                                        <ul>
-                                            <li><a href="#">Zi</a></li>
-                                            <li><a href="#">Fr</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="menu-item">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="logo">
-                                <a href="./index.html">
-                                    <img src="assets/img/logo.png" alt="" width="80">
+                                <a href="./">
+                                    <img src="./assets/img/logo.png" alt="" width="80">
                                 </a>
                             </div>
                         </div>
@@ -149,24 +139,40 @@ if ($_SERVER['PHP_SELF'] == '/webapp/oasis/public/account.php') {
                             <div class="nav-menu">
                                 <nav class="mainmenu">
                                     <ul>
-                                        <li><a href="./index.html">Home</a></li>
-                                        <li><a href="./rooms.html">Rooms</a></li>
-                                        <li class="active"><a href="./about-us.html">About Us</a></li>
-                                        <li><a href="./pages.html">Pages</a>
-                                            <ul class="dropdown">
-                                                <li><a href="./room-details.html">Room Details</a></li>
-                                                <li><a href="./blog-details.html">Blog Details</a></li>
-                                                <li><a href="#">Family Room</a></li>
-                                                <li><a href="#">Premium Room</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="./blog.html">News</a></li>
-                                        <li><a href="./contact.html">Contact</a></li>
+                                        <li class="active"><a href="./">Accueil</a></li>
+                                        <li><a href="./about">A propos</a></li>
+<?php
+if (isset($_SESSION['id'])) {
+?>
+                                        <li><a href="./booking">Réserver</a></li>
+<?php
+} else {
+?>
+                                        <li><a href="javascript:return false;" onclick="document.getElementById('login_warning').classList.remove('d-none'); document.getElementById('login_email').focus();">Réserver</a></li>
+<?php
+}
+?>
                                     </ul>
                                 </nav>
-                                <div class="nav-right search-switch">
-                                    <i class="icon_search"></i>
+
+<?php
+if (isset($_SESSION['id'])) {
+    $utilisateurEnCours = Utilisateur::trouverParId($_SESSION['id']);
+?>
+                                <div class="dropdown nav-right search-switch">
+                                    <a href="#" role="button" class="btn py-0 dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="<?= $utilisateurEnCours->avatar_url != null ? $utilisateurEnCours->avatar_url : './assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                                        <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours->prenom ?></span>
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="#menuProfil">
+                                        <a class="dropdown-item" href="./account">Mon compte</a>
+                                        <a class="dropdown-item" href="./operations/deconnexion.php">Déconnexion</a>
+                                    </div>
                                 </div>
+<?php
+}
+?>
                             </div>
                         </div>
                     </div>

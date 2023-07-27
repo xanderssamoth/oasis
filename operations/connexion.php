@@ -2,29 +2,34 @@
 
 /* 
  * File: connexion
- * author: Michael Matona
+ * author: Ketsia
  */
 require '../app/Autoloader.php';
 
 app\Autoloader::register();
 
-use app\table\Agent;
+use app\table\Utilisateur;
 
-$loginMatricule = $_POST['login_matricule'];
-$loginMotDePasse = sha1($_POST['login_motDePasse']);
+$loginEmail = $_POST['login_email'];
+$loginMotDePasse = sha1($_POST['login_mot_de_passe']);
 
 // Vérification des identifiants
-$agentEnCours = Agent::findByMatriculeAndMotDePasse($loginMatricule, $loginMotDePasse);
+$utilisateurEnCours = Utilisateur::trouverParEmailEtMotDePasse($loginEmail, $loginMotDePasse);
 
-if (!$agentEnCours) {
-    header('Location: ../admin/?p=connexion&msg=inconnu');
+if (!$utilisateurEnCours) {
+    session_start();
+
+    $_SESSION['erreur'] = 'E-mail ou mot de passe incorrect';
+
+    header('Location: ../register');
 
 } else {
     session_start();
 
-    $_SESSION['id'] = $agentEnCours[0]->id;
-    $_SESSION['nom'] = $agentEnCours[0]->nom_agent;
-    $_SESSION['postnom'] = $agentEnCours[0]->postnom_agent;
+    $_SESSION['id'] = $utilisateurEnCours[0]->id;
+    $_SESSION['nom'] = $utilisateurEnCours[0]->nom;
+    $_SESSION['postnom'] = $utilisateurEnCours[0]->post_nom;
+    $_SESSION['prenom'] = $utilisateurEnCours[0]->prenom;
 
-    header('Location: ../admin/');
+    header('Location: ../');
 }

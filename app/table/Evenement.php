@@ -17,9 +17,11 @@ class Evenement extends Table {
 
     // Enregistrer un événement
     public static function creer($nomEvenement, $prixAcompte, $prixTotal, $idEtat) {
-        return App::getDb()->mInsert('INSERT INTO evenements (nom_evenement, prix_acompte, prix_total, id_etat) '
-                        . 'VALUES (:nom_evenement, :prix_acompte, :prix_total, :id_etat);', 
+        $nouvel_id = App::getDb()->mInsertReturnID('INSERT INTO evenements (nom_evenement, prix_acompte, prix_total, id_etat) VALUES (:nom_evenement, :prix_acompte, :prix_total, :id_etat);', 
                         array('nom_evenement' => $nomEvenement, 'prix_acompte' => $prixAcompte, 'prix_total' => $prixTotal, 'id_etat' => $idEtat), __CLASS__);
+        $evenement = self::trouverParId($nouvel_id);
+
+        return $evenement;
     }
 
     // Modifier un événement

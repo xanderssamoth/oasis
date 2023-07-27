@@ -2,7 +2,7 @@
 
 /* 
  * File: deconnexion
- * author: Michael Matona
+ * author: Ketsia
  */
 session_start();
 
@@ -10,7 +10,11 @@ $_SESSION = array();
 
 session_destroy();
 // Supprimer tous les cookies de la connexion automatique
+setcookie('id', '');
 setcookie('nom', '');
 setcookie('postnom', '');
-header('Location: ../admin/');
+setcookie('prenom', '');
+setcookie('reussi', '');
+setcookie('erreur', '');
+header('Location: ../');
 ?>

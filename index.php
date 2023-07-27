@@ -27,16 +27,16 @@ $listeEvenements = Evenement::trouverTout();
         <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
 
         <!-- Css Styles -->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/flaticon.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/nice-select.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/elegant-icons.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/flaticon.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/owl.carousel.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/nice-select.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/slicknav.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
         <title>Oasis | Accueil</title>
     </head>
@@ -62,13 +62,22 @@ $listeEvenements = Evenement::trouverTout();
                 </a>
             </div>
             <div class="header-configure-area">
+<?php
+if (isset($_SESSION['id'])) {
+?>
                 <a href="./booking" class="bk-btn">Réserver la salle</a>
+<?php
+} else {
+?>
+                <a href="javascript:return false;" class="bk-btn" onclick="document.querySelector('.offcanvas-menu-wrapper').classList.remove('show-offcanvas-menu-wrapper'); document.querySelector('.offcanvas-menu-overlay').classList.remove('active'); document.getElementById('login_warning').classList.remove('d-none'); document.getElementById('login_email').focus();">Réserver la salle</a>
+<?php
+}
+?>
             </div>
             <nav class="mainmenu mobile-menu">
                 <ul>
                     <li class="active"><a href="./">Accueil</a></li>
                     <li><a href="./about">A propos</a></li>
-                    <li><a href="./booking">Réserver</a></li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
@@ -112,7 +121,17 @@ if (isset($_SESSION['id'])) {
                                     <ul>
                                         <li class="active"><a href="./">Accueil</a></li>
                                         <li><a href="./about">A propos</a></li>
+<?php
+if (isset($_SESSION['id'])) {
+?>
                                         <li><a href="./booking">Réserver</a></li>
+<?php
+} else {
+?>
+                                        <li><a href="javascript:return false;" onclick="document.getElementById('login_warning').classList.remove('d-none'); document.getElementById('login_email').focus();">Réserver</a></li>
+<?php
+}
+?>
                                     </ul>
                                 </nav>
 
@@ -150,7 +169,13 @@ if (isset($_SESSION['id'])) {
                         <div class="hero-text">
                             <h1>Salle <span class="text-warning">Oasis</span></h1>
                             <p style="font-size: 1.3rem;">Location pour les fêtes, les funérailles, les conférences et autres événements.</p>
-                            <a href="#" class="primary-btn">Réserver la salle</a>
+<?php
+if (isset($_SESSION['id'])) {
+?>
+                            <a href="./booking" class="primary-btn">Réserver la salle</a>
+<?php
+}
+?>
                         </div>
                     </div>
 
@@ -158,6 +183,8 @@ if (isset($_SESSION['id'])) {
                         <div class="booking-form">
                             <h3 class="text-center">Se connecter</h3>
                             <form action="./operations/connexion.php">
+                                <p id="login_warning" class="mb-4 text-center text-danger d-none"><i class="fa fa-info-circle mr-2"></i>Indetifiez-vous s'il vous plait !</p>
+
                                 <div class="check-date">
                                     <label for="login_email" class="sr-only">E-mail :</label>
                                     <input type="text" name="login_email" id="login_email" placeholder="E-mail" style="text-transform: inherit!important;">
@@ -165,12 +192,13 @@ if (isset($_SESSION['id'])) {
                                 </div>
 
                                 <div class="check-date">
-                                    <label for="login_password" class="sr-only">Mot de passe :</label>
-                                    <input type="password" name="login_password" id="login_password" placeholder="Mot de passe" style="text-transform: inherit!important;">
+                                    <label for="login_mot_de_passe" class="sr-only">Mot de passe :</label>
+                                    <input type="password" name="login_mot_de_passe" id="login_mot_de_passe" placeholder="Mot de passe" style="text-transform: inherit!important;">
                                     <i class="icon_lock-open_alt"></i>
                                 </div>
 
-                                <button type="submit">Connexion</button>
+                                <button type="submit" class="mb-3">Connexion</button>
+                                <p class="mb-0 text-center text-uppercase"><a href="./register" class="btn-link">Je n'ai pas de compte</a></p>
                             </form>
                         </div>
                     </div>

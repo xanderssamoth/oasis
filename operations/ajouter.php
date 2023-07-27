@@ -2,111 +2,165 @@
 
 /* 
  * File: ajouter
- * author: Michael Matona
+ * author: Ketsia
  */
+
+use app\table\Etat;
+use app\table\Evenement;
+use app\table\Role;
+use app\table\Utilisateur;
+
 require '../app/Autoloader.php';
 
 app\Autoloader::register();
 
-use app\table\Agent;
-use app\table\Fonction;
-use app\table\FormeJurique;
-use app\table\SecteurActivite;
-use app\table\Taxe;
-
+// ESPACE ADMIN
 if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
-    // Enregistrer l'agent avec la fonction "Administrateur"
-    $matricule = $_POST['enregistrer_matricule'];
-    $nom = $_POST['enregistrer_nom'];
-    $postnom = $_POST['enregistrer_postnom'];
-    $telephone = $_POST['enregistrer_telephone'];
-    $motDePasse = sha1($_POST['enregistrer_motDePasse']);
-    $confirmerMotDePasse = $_POST['confirmer_motDePasse'];
-    $fonction = 'Administrateur';
+    $prenom = $_POST['register_prenom'];
+    $nom = $_POST['register_nom'];
+    $postNom = $_POST['register_post_nom'];
+    $email = $_POST['register_email'];
+    $telephone = $_POST['register_telephone'];
+    $sexe = $_POST['register_sexe'];
+    $dateDeNaissance = explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . explode('/', $_POST['register_date_de_naissance'])[0];
+    $motDePasse = sha1($_POST['register_mot_de_passe']);
+    $confirmerMotDePasse = $_POST['confirmer_mot_de_passe'];
 
-    if ($_POST['enregistrer_motDePasse'] != $confirmerMotDePasse) {
-        header('Location: ../admin/?msg=confirmermotdepasse');
+    if ($_POST['register_mot_de_passe'] != $confirmerMotDePasse) {
+        session_start();
 
-    } else {
-        Agent::insertIntoAgentAndFonction($matricule, $nom, $postnom, $telephone, $motDePasse, $fonction);
+        $_SESSION['erreur'] = 'Veuillez confirmer le mote de passe';
 
-        header('Location: ../admin/?p=connexion&msg=inscrit');
-    }
-
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'fonction') {
-    $fonction = $_POST['enregistrer_nomFonction'];
-
-    Fonction::insertIntoFonction($fonction);
-
-    header('Location: ../admin/?p=fonction&msg=enregistree');
-
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'agent') {
-    // Enregistrer un agent avec sa fonction
-    $matricule = $_POST['enregistrer_matricule'];
-    $nom = $_POST['enregistrer_nom'];
-    $postnom = $_POST['enregistrer_postnom'];
-    $telephone = $_POST['enregistrer_telephone'];
-    $motDePasse = sha1($_POST['enregistrer_motDePasse']);
-    $confirmerMotDePasse = $_POST['confirmer_motDePasse'];
-    $idFonction = $_POST['id_fonction'];
-
-    if ($_POST['enregistrer_motDePasse'] != $confirmerMotDePasse) {
-        header('Location: ../admin/?p=agent&msg=confirmermotdepasse');
+        header('Location: ../register');
 
     } else {
-        Agent::insertIntoAgent($matricule, $nom, $postnom, $telephone, $motDePasse, $idFonction);
+        $etat_active = Etat::creer('Activé', 'Fonctionnement normal dans tous les espaces de l\'application.', 'success');
+        $role_admin = Role::creer('Administrateur', 'Gestion des clients, des réservations, des événements et autres.');
 
-        header('Location: ../admin/?p=agent&msg=enregistre');
+        Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $role_admin->id, $etat_active->id);
+
+        session_start();
+
+        $_SESSION['reussi'] = 'Inscription réussie';
+
+        header('Location: ../admin/');
     }
 
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'secteur') {
-    $secteur = $_POST['enregistrer_nomSecteur'];
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
+    $nomRole = $_POST['register_nom_role'];
+    $descriptionRole = $_POST['register_description_role'];
 
-    SecteurActivite::insertIntoSecteurActivite($secteur);
+    Role::creer($nomRole, $descriptionRole);
 
-    header('Location: ../admin/?p=secteur&msg=enregistre');
+    session_start();
 
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'taxe') {
-    $taxe = $_POST['enregistrer_nomTaxe'];
+    $_SESSION['reussi'] = 'Rôle enregistré';
 
-    Taxe::insertIntoTaxe($taxe);
+    header('Location: ../admin/role');
 
-    header('Location: ../admin/?p=taxe&msg=enregistree');
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'etat') {
+    $nomEtat = $_POST['register_nom_etat'];
+    $descriptionEtat = $_POST['register_description_etat'];
+    $couleur = $_POST['register_couleur'];
 
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'forme_juridique') {
-    $formeJurique = $_POST['enregistrer_nomForme'];
-    $abreviation = $_POST['enregistrer_abreviation'];
+    Etat::creer($nomEtat, $descriptionEtat, $couleur);
 
-    FormeJurique::insertIntoFormeJurique($formeJurique, $abreviation);
+    session_start();
 
-    header('Location: ../admin/?p=forme_juridique&msg=enregistree');
+    $_SESSION['reussi'] = 'Etat enregistré';
+
+    header('Location: ../admin/etat');
+
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'evenement') {
+    $nomEvenement = $_POST['register_nom_evenement'];
+    $prixAccompte = $_POST['register_prix_accompte'];
+    $prixTotal = $_POST['register_prix_total'];
+    $idEtat = $_POST['id_etat'];
+
+    Evenement::creer($nomEvenement, $prixAccompte, $prixTotal, $idEtat);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Evénement enregistré';
+
+    header('Location: ../admin/evenement');
+
+// ESPACE PUBLIC
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'client') {
+    $prenom = $_POST['register_prenom'];
+    $nom = $_POST['register_nom'];
+    $postNom = $_POST['register_post_nom'];
+    $email = $_POST['register_email'];
+    $telephone = $_POST['register_telephone'];
+    $sexe = $_POST['register_sexe'];
+    $dateDeNaissance = explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . explode('/', $_POST['register_date_de_naissance'])[0];
+    $motDePasse = sha1($_POST['register_mot_de_passe']);
+    $confirmerMotDePasse = $_POST['confirmer_mot_de_passe'];
+    $idRole = $_POST['id_role'];
+    $idEtat = $_POST['id_etat'];
+
+    if ($_POST['register_mot_de_passe'] != $confirmerMotDePasse) {
+        session_start();
+
+        $_SESSION['erreur'] = 'Veuillez confirmer le mot de passe';
+
+        header('Location: ../register');
+
+    } else {
+        $utilisateurEnCours = Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $idRole, $idEtat);
+
+        session_start();
+
+        $_SESSION['id'] = $utilisateurEnCours[0]->id;
+        $_SESSION['nom'] = $utilisateurEnCours[0]->nom;
+        $_SESSION['postnom'] = $utilisateurEnCours[0]->post_nom;
+        $_SESSION['prenom'] = $utilisateurEnCours[0]->prenom;
+        $_SESSION['reussi'] = 'Inscription réussie';
+
+        header('Location: ../');
+    }
+
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'reservation') {
+    $idUtilisateur = $_POST['id_utilisateur'];
+    $idEvenement = $_POST['id_evenement'];
+    $date = $_POST['register_date'];
+    $heureDebut = $_POST['register_heure_debut'];
+    $heureFin = $_POST['register_heure_fin'];
+    $idEtat = $_POST['id_etat'];
+
+    if ($date == null) {
+        session_start();
+
+        $_SESSION['erreur'] = 'Veuillez choisir une date';
+
+        header('Location: ../booking');
+
+    } else if ($heureDebut == null OR $heureDebut == null) {
+        session_start();
+
+        $_SESSION['erreur'] = 'Heure de début et de fin obligatoires';
+
+        header('Location: ../booking');
+
+    } else {
+        Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $idRole, $idEtat);
+
+        session_start();
+
+        $_SESSION['reussi'] = 'Réservation enregistrée';
+
+        header('Location: ../bookings');
+    }
 
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'photo') {
-    $id_agent = $_POST['id_agent'];
+    $idUtilisateur = $_POST['id_utilisateur'];
     $data = $_POST['avatar'];
     $image_array_1 = explode(';', $data);
     $image_array_2 = explode(',', $image_array_1[1]);
     $data = base64_decode($image_array_2[1]);
-    $image_name = 'C:\\xampp\\htdocs\\img\\agents_site_env\\' . $id_agent . '.png';
+    $image_name = 'C:\\xampp\\htdocs\\img\\oasis\\' . $idUtilisateur . '.png';
 
     file_put_contents($image_name, $data);
 
     echo $image_name;
-
-// ENREGISTRER LES FICHIERS DANS LE SERVEUR
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'document') {
-    if (isset($_POST['envoyer'])) {
- 
-        // Récupérer tous les fichiers
-        $countfiles = count($_FILES['fichier']['nom_document']);
-
-        for ($i = 0; $i < $countfiles; $i++) {
-            $filename = $_FILES['fichier']['name'][$i];
-
-            // Uploader les fichiers
-            move_uploaded_file($_FILES['fichier']['tmp_name'][$i], 'C:\\xampp\\htdocs\\img\\agents_site_env\\' . $filename);
-
-            echo $image_name;
-        }
-    }
 }
