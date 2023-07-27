@@ -23,7 +23,7 @@ class Table {
     }
 
     public static function compterTout() {
-        return App::getDb()->mQuery('SELECT COUNT(*) FROM ' . static::$table, get_called_class());
+        return App::getDb()->mQuery('SELECT COUNT(*) nbr FROM ' . static::$table, get_called_class());
     }
 
     public static function trouverTout() {

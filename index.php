@@ -6,8 +6,10 @@ app\Autoloader::register();
 session_start();
 
 use app\table\Evenement;
+use app\table\Role;
 use app\table\Utilisateur;
 
+$compterRole = Role::compterTout();
 $listeEvenements = Evenement::trouverTout();
 ?>
 <!DOCTYPE html>
@@ -238,7 +240,9 @@ if (isset($_SESSION['id'])) {
                                 </div>
 
                                 <button type="submit" class="mb-3">Connexion</button>
-                                <p class="mb-0 text-center text-uppercase"><a href="./register" class="btn-link">Je n'ai pas de compte</a></p>
+                                <p class="mb-0 text-center text-uppercase">
+                                    <a href="./register<?= $compterRole[0]->nbr == 0 ? '?redirect=admin' : '' ?>" class="btn-link">Je n'ai pas de compte</a>
+                                </p>
                             </form>
                         </div>
                     </div>

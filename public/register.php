@@ -24,7 +24,17 @@ require('../templates/public/entete.php');
                     <div class="col-lg-7 col-sm-7 mx-auto">
                         <div class="booking-form pt-0">
                             <form method="POST" action="./operations/ajouter.php">
+<?php
+if (isset($_GET['redirect']) && $_GET['redirect'] == 'admin') {
+?>
                                 <input type="hidden" name="objet" value="admin">
+<?php
+} else {
+?>
+                                <input type="hidden" name="objet" value="client">
+<?php
+}
+?>
 
                                 <div class="row">
                                     <div class="col-lg-6">
