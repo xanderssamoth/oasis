@@ -190,14 +190,35 @@ if (isset($_SESSION['erreur'])) {
 ?>
 
         <!-- Dashboard Section Begin -->
-        <section class="aboutus-page-section spad py-5">
+        <section class="aboutus-page-section spad pt-5 pb-0">
             <div class="container">
                 <div class="about-page-text">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-sm-6">
+                            <div class="view">
+                                <img src="../assets/img/admin-illustration.png" alt="admin-illustration" class="img-fluid">
+                                <div class="mask"></div>
+                            </div>
                             <div class="ap-title">
-                                <h2 class="mb-4">Bienvenue</h2>
-                                <p>La salle polyvalente Oasis oeuvre dans le service commercial avec comme but d'aider la population surtout ceux qui n'ont pas assez d'espace avec leur espace à bien faire leurs activités.</p>
+                                <h2 class="mb-4">Administration</h2>
+                                <p class="mb-0">Espace de gestion des rôles, des états, des événements et des réservations de clients.</p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 d-inline-flex align-items-center">
+                            <div class="w-100">
+                                <a href="./role" class="btn btn-block btn-dark mb-2 pl-5 py-3 z-depth-0 text-left">
+                                    <i class="fa fa-chevron-right mr-2"></i> Gérer des rôles
+                                </a>
+                                <a href="./status" class="btn btn-block btn-dark mb-2 pl-5 py-3 z-depth-0 text-left">
+                                    <i class="fa fa-chevron-right mr-2"></i> Gérer des états
+                                </a>
+                                <a href="./event" class="btn btn-block btn-dark mb-2 pl-5 py-3 z-depth-0 text-left">
+                                    <i class="fa fa-chevron-right mr-2"></i> Gérer des événements
+                                </a>
+                                <a href="./bookings" class="btn btn-block btn-primary mb-2 pl-5 py-3 z-depth-0 text-left">
+                                    <i class="fa fa-chevron-right mr-2"></i> Gérer des réservations
+                                </a>
                             </div>
                         </div>
                     </div>
