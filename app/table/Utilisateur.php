@@ -16,10 +16,10 @@ class Utilisateur extends Table {
     protected static $table = 'utilisateurs';
 
     // Enregistrer un utilisateur
-    public static function creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $idRole, $idEtat) {
-        $nouvel_id = App::getDb()->mInsertReturnID('INSERT INTO utilisateurs (prenom, nom, post_nom, email, telephone, sexe, date_de_naissance, id_role, id_etat) '
-                        . 'VALUES (:prenom, :nom, :post_nom, :email, :telephone, :sexe, :date_de_naissance, :id_role, :id_etat);', 
-                        array('prenom' => $prenom, 'nom' => $nom, 'post_nom' => $postNom, 'email' => $email, 'telephone' => $telephone, 'sexe' => $sexe, 'date_de_naissance' => $dateDeNaissance, 'id_role' => $idRole, 'id_etat' => $idEtat), __CLASS__);
+    public static function creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $motDePasse, $idRole, $idEtat) {
+        $nouvel_id = App::getDb()->mInsertReturnID('INSERT INTO utilisateurs (prenom, nom, post_nom, email, telephone, sexe, date_de_naissance, mot_de_passe, id_role, id_etat) '
+                        . 'VALUES (:prenom, :nom, :post_nom, :email, :telephone, :sexe, :date_de_naissance, :mot_de_passe, :id_role, :id_etat);', 
+                        array('prenom' => $prenom, 'nom' => $nom, 'post_nom' => $postNom, 'email' => $email, 'telephone' => $telephone, 'sexe' => $sexe, 'date_de_naissance' => $dateDeNaissance, 'mot_de_passe' => $motDePasse, 'id_role' => $idRole, 'id_etat' => $idEtat), __CLASS__);
         $utilisateur = self::trouverParId($nouvel_id);
 
         return $utilisateur;

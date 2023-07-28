@@ -4,6 +4,7 @@
  * File: connexion
  * author: Ketsia
  */
+
 require '../app/Autoloader.php';
 
 app\Autoloader::register();
@@ -27,9 +28,6 @@ if (!$utilisateurEnCours) {
     session_start();
 
     $_SESSION['id'] = $utilisateurEnCours[0]->id;
-    $_SESSION['nom'] = $utilisateurEnCours[0]->nom;
-    $_SESSION['postnom'] = $utilisateurEnCours[0]->post_nom;
-    $_SESSION['prenom'] = $utilisateurEnCours[0]->prenom;
 
     header('Location: ../');
 }

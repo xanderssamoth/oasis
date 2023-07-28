@@ -7,6 +7,7 @@
 
 use app\table\Etat;
 use app\table\Evenement;
+use app\table\Reservation;
 use app\table\Role;
 use app\table\Utilisateur;
 
@@ -22,7 +23,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
     $email = $_POST['register_email'];
     $telephone = $_POST['register_telephone'];
     $sexe = $_POST['register_sexe'];
-    $dateDeNaissance = !empty($_POST['register_date_de_naissance']) ? explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . explode('/', $_POST['register_date_de_naissance'])[0] : null;
+    $dateDeNaissance = isset($_POST['register_date_de_naissance']) ? explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . '-' . explode('/', $_POST['register_date_de_naissance'])[0] : null;
     $motDePasse = sha1($_POST['register_mot_de_passe']);
     $confirmerMotDePasse = $_POST['confirmer_mot_de_passe'];
 
@@ -36,11 +37,11 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
     } else {
         $etat_active = Etat::creer('Activé', 'Fonctionnement normal dans tous les espaces de l\'application.', 'success');
         $role_admin = Role::creer('Administrateur', 'Gestion des clients, des réservations, des événements et autres.');
-
-        Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $role_admin[0]->id, $etat_active[0]->id);
+        $utilisateurEnCours = Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $motDePasse, $role_admin[0]->id, $etat_active[0]->id);
 
         session_start();
 
+        $_SESSION['id'] = $utilisateurEnCours[0]->id;
         $_SESSION['reussi'] = 'Inscription réussie';
 
         header('Location: ../admin/');
@@ -93,7 +94,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
     $email = $_POST['register_email'];
     $telephone = $_POST['register_telephone'];
     $sexe = $_POST['register_sexe'];
-    $dateDeNaissance = explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . explode('/', $_POST['register_date_de_naissance'])[0];
+    $dateDeNaissance = explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . '-' . explode('/', $_POST['register_date_de_naissance'])[0];
     $motDePasse = sha1($_POST['register_mot_de_passe']);
     $confirmerMotDePasse = $_POST['confirmer_mot_de_passe'];
     $idRole = $_POST['id_role'];
@@ -107,14 +108,11 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
         header('Location: ../register');
 
     } else {
-        $utilisateurEnCours = Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $idRole, $idEtat);
+        $utilisateurEnCours = Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $motDePasse, $idRole, $idEtat);
 
         session_start();
 
         $_SESSION['id'] = $utilisateurEnCours[0]->id;
-        $_SESSION['nom'] = $utilisateurEnCours[0]->nom;
-        $_SESSION['postnom'] = $utilisateurEnCours[0]->post_nom;
-        $_SESSION['prenom'] = $utilisateurEnCours[0]->prenom;
         $_SESSION['reussi'] = 'Inscription réussie';
 
         header('Location: ../');
@@ -143,7 +141,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
         header('Location: ../booking');
 
     } else {
-        Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $idRole, $idEtat);
+        Reservation::creer($idUtilisateur, $idEvenement, $date, $heureDebut, $heureFin, $idEtat);
 
         session_start();
 

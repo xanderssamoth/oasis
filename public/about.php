@@ -13,10 +13,10 @@ require('../templates/public/entete.php')
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb-text">
-                            <h2>Réserver la salle</h2>
+                            <h2>A propos de nous</h2>
                             <div class="bt-option">
                                 <a href="./">Accueil</a>
-                                <span>Réserver</span>
+                                <span>A propos</span>
                             </div>
                         </div>
                     </div>

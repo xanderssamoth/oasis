@@ -86,16 +86,23 @@ if (isset($_SESSION['id'])) {
 
 <?php
 if (isset($_SESSION['id'])) {
-    $utilisateurEnCours = Utilisateur::trouverParId($_SESSION['id']);
+    $utilisateurEnCours = Utilisateur::trouverAvecRoleEtEtat($_SESSION['id']);
 ?>
             <div class="dropdown mt-4 search-switch">
                 <a href="#" role="button" class="btn dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="<?= $utilisateurEnCours->avatar_url != null ? $utilisateurEnCours->avatar_url : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
-                    <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours->prenom ?></span>
+                    <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                    <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours[0]->prenom_util ?></span>
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="#menuProfil">
                     <a class="dropdown-item" href="./account">Mon compte</a>
+<?php
+    if ($utilisateurEnCours[0]->nom_rol == 'Administrateur') {
+?>
+                    <a class="dropdown-item" href="./admin/">Administration</a>
+<?php
+    }
+?>
                     <a class="dropdown-item" href="./operations/deconnexion.php">Déconnexion</a>
                 </div>
             </div>
@@ -139,16 +146,23 @@ if (isset($_SESSION['id'])) {
 
 <?php
 if (isset($_SESSION['id'])) {
-    $utilisateurEnCours = Utilisateur::trouverParId($_SESSION['id']);
+    $utilisateurEnCours = Utilisateur::trouverAvecRoleEtEtat($_SESSION['id']);
 ?>
                                 <div class="dropdown nav-right search-switch">
                                     <a href="#" role="button" class="btn py-0 dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="<?= $utilisateurEnCours->avatar_url != null ? $utilisateurEnCours->avatar_url : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
-                                        <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours->prenom ?></span>
+                                        <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                                        <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours[0]->prenom_util ?></span>
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="#menuProfil">
                                         <a class="dropdown-item" href="./account">Mon compte</a>
+<?php
+    if ($utilisateurEnCours[0]->nom_rol == 'Administrateur') {
+?>
+                                        <a class="dropdown-item" href="./admin/">Administration</a>
+<?php
+    }
+?>
                                         <a class="dropdown-item" href="./operations/deconnexion.php">Déconnexion</a>
                                     </div>
                                 </div>
@@ -221,6 +235,9 @@ if (isset($_SESSION['id'])) {
                         </div>
                     </div>
 
+<?php
+if (!isset($_SESSION['id'])) {
+?>
                     <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
                         <div class="booking-form">
                             <h3 class="text-center">Se connecter</h3>
@@ -246,6 +263,9 @@ if (isset($_SESSION['id'])) {
                             </form>
                         </div>
                     </div>
+<?php
+}
+?>
                 </div>
             </div>
             <div class="hero-slider owl-carousel">

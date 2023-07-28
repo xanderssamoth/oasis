@@ -1,13 +1,21 @@
 <?php
 
-require './../app/Autoloader.php';
+require '../app/Autoloader.php';
 
 app\Autoloader::register();
 
+session_start();
+
+if (!isset($_SESSION['id'])) {
+    header('Location: ../');
+}
+
 use app\table\Evenement;
+use app\table\Role;
 use app\table\Utilisateur;
 
-$racineDossier = '/webapp/oasis/public';
+$utilisateurEnCours = Utilisateur::trouverAvecRoleEtEtat($_SESSION['id']);
+$compterRole = Role::compterTout();
 $listeEvenements = Evenement::trouverTout();
 ?>
 <!DOCTYPE html>
@@ -20,45 +28,25 @@ $listeEvenements = Evenement::trouverTout();
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
         <!-- Favicon -->
-        <link rel="shortcut icon" type="images/png" href="./assets/img/icon.png">
+        <link rel="shortcut icon" type="images/png" href="../assets/img/icon.png">
 
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
 
         <!-- Css Styles -->
-        <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="./assets/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="./assets/css/elegant-icons.css">
-        <link rel="stylesheet" type="text/css" href="./assets/css/flaticon.css">
-        <link rel="stylesheet" type="text/css" href="./assets/css/owl.carousel.min.css">
-        <link rel="stylesheet" type="text/css" href="./assets/css/nice-select.css">
-        <link rel="stylesheet" type="text/css" href="./assets/css/jquery-ui.min.css">
-        <link rel="stylesheet" type="text/css" href="./assets/css/magnific-popup.css">
-        <link rel="stylesheet" type="text/css" href="./assets/css/slicknav.min.css">
-        <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/elegant-icons.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/flaticon.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/owl.carousel.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/nice-select.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/magnific-popup.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/slicknav.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 
-        <style>
-            .booking-form input {text-transform: inherit!important;}
-        </style>
-
-        <title>
-            Oasis | 
-<?php
-if ($_SERVER['PHP_SELF'] == $racineDossier . '/register.php') {
-?>
-            Inscription
-<?php
-}
-
-if ($_SERVER['PHP_SELF'] == $racineDossier . '/account.php') {
-?>
-            Profil
-<?php
-}
-?>
-
-        </title>
+        <title>Oasis | Accueil</title>
     </head>
 
     <body>
@@ -77,15 +65,15 @@ if ($_SERVER['PHP_SELF'] == $racineDossier . '/account.php') {
                 <i class="icon_close"></i>
             </div>
             <div class="text-center mb-4">
-                <a href="./">
-                    <img src="./assets/img/logo.png" alt="logo" width="100">
+                <a href="../">
+                    <img src="../assets/img/logo.png" alt="logo" width="100">
                 </a>
             </div>
             <div class="header-configure-area">
 <?php
 if (isset($_SESSION['id'])) {
 ?>
-                <a href="./booking" class="bk-btn">Réserver la salle</a>
+                <a href="../" class="bk-btn">Réserver la salle</a>
 <?php
 } else {
 ?>
@@ -96,16 +84,12 @@ if (isset($_SESSION['id'])) {
             </div>
             <nav class="mainmenu mobile-menu">
                 <ul>
-                    <li class="active"><a href="./">Accueil</a></li>
-                    <li><a href="./about">A propos</a></li>
+                    <li class="active"><a href="../">Accueil</a></li>
+                    <li><a href="../about">A propos</a></li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
 
-            <?php
-if (isset($_SESSION['id'])) {
-    $utilisateurEnCours = Utilisateur::trouverAvecRoleEtEtat($_SESSION['id']);
-?>
             <div class="dropdown mt-4 search-switch">
                 <a href="#" role="button" class="btn dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
@@ -113,20 +97,11 @@ if (isset($_SESSION['id'])) {
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="#menuProfil">
-                    <a class="dropdown-item" href="./account">Mon compte</a>
-<?php
-    if ($utilisateurEnCours[0]->nom_rol == 'Administrateur') {
-?>
-                    <a class="dropdown-item" href="./admin/">Administration</a>
-<?php
-    }
-?>
-                    <a class="dropdown-item" href="./operations/deconnexion.php">Déconnexion</a>
+                    <a class="dropdown-item" href="../account">Mon compte</a>
+                    <a class="dropdown-item" href="../">Espace public</a>
+                    <a class="dropdown-item" href="../operations/deconnexion.php">Déconnexion</a>
                 </div>
             </div>
-<?php
-}
-?>
         </div>
         <!-- Offcanvas Menu Section End -->
 
@@ -138,7 +113,7 @@ if (isset($_SESSION['id'])) {
                         <div class="col-lg-2">
                             <div class="logo">
                                 <a href="./">
-                                    <img src="./assets/img/logo.png" alt="" width="80">
+                                    <img src="../assets/img/logo.png" alt="" width="80">
                                 </a>
                             </div>
                         </div>
@@ -146,37 +121,26 @@ if (isset($_SESSION['id'])) {
                             <div class="nav-menu">
                                 <nav class="mainmenu">
                                     <ul>
-                                        <li><a href="./">Accueil</a></li>
-                                        <li class="<?= $_SERVER['PHP_SELF'] == $racineDossier . '/about.php' ? 'active' : '' ?>"><a href="./about">A propos</a></li>
-                                        <li class="<?= $_SERVER['PHP_SELF'] == $racineDossier . '/booking.php' ? 'active' : '' ?>"><a href="./booking">Réserver</a></li>
+                                        <li class="active"><a href="../">Tableau de bord</a></li>
+                                        <li><a href="./role">Role</a></li>
+                                        <li><a href="./status">Etat</a></li>
+                                        <li><a href="./event">Evénement</a></li>
+                                        <li><a href="./bookings">Réservations</a></li>
                                     </ul>
                                 </nav>
 
-<?php
-if (isset($_SESSION['id'])) {
-    $utilisateurEnCours = Utilisateur::trouverAvecRoleEtEtat($_SESSION['id']);
-?>
                                 <div class="dropdown nav-right search-switch">
                                     <a href="#" role="button" class="btn py-0 dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                                        <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : '../assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
                                         <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours[0]->prenom_util ?></span>
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="#menuProfil">
-                                        <a class="dropdown-item" href="./account">Mon compte</a>
-<?php
-    if ($utilisateurEnCours[0]->nom_rol == 'Administrateur') {
-?>
-                                        <a class="dropdown-item" href="./admin/">Administration</a>
-<?php
-    }
-?>
-                                        <a class="dropdown-item" href="./operations/deconnexion.php">Déconnexion</a>
+                                        <a class="dropdown-item" href="../account">Mon compte</a>
+                                        <a class="dropdown-item" href="../">Espace public</a>
+                                        <a class="dropdown-item" href="../operations/deconnexion.php">Déconnexion</a>
                                     </div>
                                 </div>
-<?php
-}
-?>
                             </div>
                         </div>
                     </div>
@@ -222,5 +186,61 @@ if (isset($_SESSION['erreur'])) {
         </div>
         <!-- Alert End -->
 <?php
+}
+?>
+
+        <!-- Dashboard Section Begin -->
+        <section class="aboutus-page-section spad py-5">
+            <div class="container">
+                <div class="about-page-text">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="ap-title">
+                                <h2 class="mb-4">Bienvenue</h2>
+                                <p>La salle polyvalente Oasis oeuvre dans le service commercial avec comme but d'aider la population surtout ceux qui n'ont pas assez d'espace avec leur espace à bien faire leurs activités.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Dashboard Section End -->
+
+        <!-- Footer Section Begin -->
+        <footer class="footer-section">
+            <div class="copyright-option">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="co-text text-center">
+                                <p class="mb-0">
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> Tous droits réservés
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer Section End -->
+
+        <!-- Js Plugins -->
+        <script src="../assets/js/jquery-3.3.1.min.js"></script>
+        <script src="../assets/js/popper.min.js"></script>
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="../assets/js/jquery.nice-select.min.js"></script>
+        <script src="../assets/js/jquery-ui.min.js"></script>
+        <script src="../assets/js/jquery.slicknav.js"></script>
+        <script src="../assets/js/owl.carousel.min.js"></script>
+        <script src="../assets/js/main.js"></script>
+    </body>
+</html>
+<?php
+if (isset($_SESSION['reussi'])) {
+    unset($_SESSION['reussi']);
+}
+if (isset($_SESSION['erreur'])) {
+    unset($_SESSION['erreur']);
 }
 ?>
