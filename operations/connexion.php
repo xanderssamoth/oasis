@@ -22,7 +22,7 @@ if (!$utilisateurEnCours) {
 
     $_SESSION['erreur'] = 'E-mail ou mot de passe incorrect';
 
-    header('Location: ../register');
+    header('Location: ../');
 
 } else {
     session_start();
