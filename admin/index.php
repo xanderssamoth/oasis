@@ -70,29 +70,21 @@ $listeEvenements = Evenement::trouverTout();
                 </a>
             </div>
             <div class="header-configure-area">
-<?php
-if (isset($_SESSION['id'])) {
-?>
-                <a href="../" class="bk-btn">Réserver la salle</a>
-<?php
-} else {
-?>
-                <a href="javascript:return false;" class="bk-btn" onclick="document.querySelector('.offcanvas-menu-wrapper').classList.remove('show-offcanvas-menu-wrapper'); document.querySelector('.offcanvas-menu-overlay').classList.remove('active'); document.getElementById('login_warning').classList.remove('d-none'); document.getElementById('login_email').focus();">Réserver la salle</a>
-<?php
-}
-?>
             </div>
             <nav class="mainmenu mobile-menu">
                 <ul>
-                    <li class="active"><a href="../">Accueil</a></li>
-                    <li><a href="../about">A propos</a></li>
+                    <li class="active"><a href="./">Tableau de bord</a></li>
+                    <li><a href="./role">Rôle</a></li>
+                    <li><a href="./status">Etat</a></li>
+                    <li><a href="./event">Evénement</a></li>
+                    <li><a href="./bookings">Réservations</a></li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
 
             <div class="dropdown mt-4 search-switch">
                 <a href="#" role="button" class="btn dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                    <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : '../assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
                     <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours[0]->prenom_util ?></span>
                 </a>
 
@@ -121,8 +113,8 @@ if (isset($_SESSION['id'])) {
                             <div class="nav-menu">
                                 <nav class="mainmenu">
                                     <ul>
-                                        <li class="active"><a href="../">Tableau de bord</a></li>
-                                        <li><a href="./role">Role</a></li>
+                                        <li class="active"><a href="./">Tableau de bord</a></li>
+                                        <li><a href="./role">Rôle</a></li>
                                         <li><a href="./status">Etat</a></li>
                                         <li><a href="./event">Evénement</a></li>
                                         <li><a href="./bookings">Réservations</a></li>
@@ -199,7 +191,7 @@ if (isset($_SESSION['erreur'])) {
                                 <img src="../assets/img/admin-illustration.png" alt="admin-illustration" class="img-fluid">
                                 <div class="mask"></div>
                             </div>
-                            <div class="ap-title">
+                            <div class="ap-title text-sm-left text-center">
                                 <h2 class="mb-4">Administration</h2>
                                 <p class="mb-0">Espace de gestion des rôles, des états, des événements et des réservations de clients.</p>
                             </div>
@@ -208,16 +200,16 @@ if (isset($_SESSION['erreur'])) {
                         <div class="col-sm-6 d-inline-flex align-items-center">
                             <div class="w-100">
                                 <a href="./role" class="btn btn-block btn-dark mb-2 pl-5 py-3 z-depth-0 text-left">
-                                    <i class="fa fa-chevron-right mr-2"></i> Gérer des rôles
+                                    <i class="fa fa-chevron-right mr-2"></i> Gérer les rôles
                                 </a>
                                 <a href="./status" class="btn btn-block btn-dark mb-2 pl-5 py-3 z-depth-0 text-left">
-                                    <i class="fa fa-chevron-right mr-2"></i> Gérer des états
+                                    <i class="fa fa-chevron-right mr-2"></i> Gérer les états
                                 </a>
                                 <a href="./event" class="btn btn-block btn-dark mb-2 pl-5 py-3 z-depth-0 text-left">
-                                    <i class="fa fa-chevron-right mr-2"></i> Gérer des événements
+                                    <i class="fa fa-chevron-right mr-2"></i> Gérer les événements
                                 </a>
                                 <a href="./bookings" class="btn btn-block btn-primary mb-2 pl-5 py-3 z-depth-0 text-left">
-                                    <i class="fa fa-chevron-right mr-2"></i> Gérer des réservations
+                                    <i class="fa fa-chevron-right mr-2"></i> Gérer les réservations
                                 </a>
                             </div>
                         </div>

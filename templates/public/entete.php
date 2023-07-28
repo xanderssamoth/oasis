@@ -1,6 +1,6 @@
 <?php
 
-require './../app/Autoloader.php';
+require '../app/Autoloader.php';
 
 app\Autoloader::register();
 
