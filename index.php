@@ -241,7 +241,7 @@ if (!isset($_SESSION['id'])) {
                     <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
                         <div class="booking-form">
                             <h3 class="text-center">Se connecter</h3>
-                            <form action="./operations/connexion.php">
+                            <form method="POST" action="./operations/connexion.php">
                                 <p id="login_warning" class="mb-4 text-center text-danger d-none"><i class="fa fa-info-circle mr-2"></i>Indetifiez-vous s'il vous plait !</p>
 
                                 <div class="check-date">
