@@ -79,7 +79,7 @@ if ($_SERVER['PHP_SELF'] == $racineDossier . '/event.php') {
 <?php
 }
 
-if ($_SERVER['PHP_SELF'] == $racineDossier . '/event.php') {
+if ($_SERVER['PHP_SELF'] == $racineDossier . '/bookings.php') {
 ?>
             Réservations des clients
 <?php
