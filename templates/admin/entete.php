@@ -51,6 +51,10 @@ $listeEvenements = Evenement::trouverTout();
         <link rel="stylesheet" type="text/css" href="../assets/css/slicknav.min.css">
         <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 
+        <style>
+            textarea {resize: none;} input {text-transform: inherit!important;} .contact-section textarea {width: 100%; padding: 1rem; border: 1px #ddd solid;}
+        </style>
+
         <title>
 <?php
 if ($_SERVER['PHP_SELF'] == $racineDossier . '/role.php') {

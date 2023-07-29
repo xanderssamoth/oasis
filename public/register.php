@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (isset($_SESSION['id'])) {
+    header('Location: ./');
+}
+
 require('../templates/public/entete.php');
 ?>
 
@@ -113,6 +119,9 @@ if (isset($_GET['redirect']) && $_GET['redirect'] == 'admin') {
                                 </div>
 
                                 <button type="submit" class="mb-3">Enregistrer</button>
+                                <p class="mb-0 text-center text-uppercase">
+                                    <a href="./" class="btn-link">J'ai déjà un compte</a>
+                                </p>
                             </form>
                         </div>
                     </div>
