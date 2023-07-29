@@ -6,10 +6,11 @@ app\Autoloader::register();
 
 if (!isset($_SESSION['id'])) {
     header('Location: ../');
-
 }
 
+use app\table\Etat;
 use app\table\Evenement;
+use app\table\Reservation;
 use app\table\Role;
 use app\table\Utilisateur;
 
@@ -21,7 +22,10 @@ if ($utilisateurEnCours[0]->nom_rol != 'Administrateur') {
 }
 
 $compterRole = Role::compterTout();
+$listeRoles = Role::trouverTout();
+$listeEtats = Etat::trouverTout();
 $listeEvenements = Evenement::trouverTout();
+$listeReservations = Reservation::trouverToutesAvecDetails();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

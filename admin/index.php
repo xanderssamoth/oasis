@@ -10,19 +10,13 @@ if (!isset($_SESSION['id'])) {
     header('Location: ../');
 }
 
-use app\table\Evenement;
-use app\table\Role;
 use app\table\Utilisateur;
 
 $utilisateurEnCours = Utilisateur::trouverAvecRoleEtEtat($_SESSION['id']);
 
 if ($utilisateurEnCours[0]->nom_rol != 'Administrateur') {
     header('Location: ../');
-
 }
-
-$compterRole = Role::compterTout();
-$listeEvenements = Evenement::trouverTout();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
