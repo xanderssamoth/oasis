@@ -15,6 +15,12 @@ use app\table\Role;
 use app\table\Utilisateur;
 
 $utilisateurEnCours = Utilisateur::trouverAvecRoleEtEtat($_SESSION['id']);
+
+if ($utilisateurEnCours[0]->nom_rol != 'Administrateur') {
+    header('Location: ../');
+
+}
+
 $compterRole = Role::compterTout();
 $listeEvenements = Evenement::trouverTout();
 ?>
