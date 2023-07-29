@@ -29,4 +29,9 @@ class Role extends Table {
         return App::getDb()->mInsert('UPDATE roles SET nom_role = :nom_role, description_role = :description_role, modifiee_a = NOW() WHERE roles.id = :id', 
                         array('nom_role' => $nom, 'description_role' => $description, 'id' => $id), __CLASS__);
     }
+
+    // Trouver un rôle par son nom
+    public static function trouverParNom($nom) {
+        return self::query('SELECT * FROM roles WHERE nom_role = :nom_role', array('nom_role' => $nom));
+    }
 }

@@ -2,28 +2,76 @@
 
 /* 
  * File: supprimer
- * author: Michael Matona
+ * author: Ketsia
  */
+
+use app\table\Etat;
+use app\table\Evenement;
+use app\table\Reservation;
+use app\table\Role;
+use app\table\Utilisateur;
+
 require '../app/Autoloader.php';
 
 app\Autoloader::register();
 
-// use app\table\Agent;
-use app\table\Fonction;
+// ESPACE ADMIN
+if (isset($_GET['objet']) && $_GET['objet'] === 'role') {
+    $idRole = $_GET['id'];
 
-if (isset($_GET['objet']) && $_GET['objet'] === 'fonction') {
-    $idFonction = $_GET['id_fonction'];
+    Role::supprimer($idRole);
 
-    Fonction::delete($idFonction);
+    session_start();
 
-    header('Location: ../admin/?p=fonction&msg=supprimee');
+    $_SESSION['reussi'] = 'Rôle supprimé';
 
-} else if (isset($_GET['objet']) && $_GET['objet'] === 'agent') {
+    header('Location: ../admin/role');
 
-} else if (isset($_GET['objet']) && $_GET['objet'] === 'secteur') {
+} else if (isset($_GET['objet']) && $_GET['objet'] === 'etat') {
+    $idEtat = $_GET['id'];
 
-} else if (isset($_GET['objet']) && $_GET['objet'] === 'taxe') {
+    Etat::supprimer($idEtat);
 
-} else if (isset($_GET['objet']) && $_GET['objet'] === 'forme_juridique') {
+    session_start();
 
+    $_SESSION['reussi'] = 'Etat supprimé';
+
+    header('Location: ../admin/status');
+
+} else if (isset($_GET['objet']) && $_GET['objet'] === 'evenement') {
+    $idEvenement = $_GET['id'];
+
+    Evenement::supprimer($idEvenement);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Evénement supprimé';
+
+    header('Location: ../admin/event');
+
+// ESPACE PUBLIC
+} else if (isset($_GET['objet']) && $_GET['objet'] === 'reservation') {
+    $idReservation = $_GET['id'];
+
+    Reservation::supprimer($idReservation);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Evénement supprimé';
+
+    header('Location: ../bookings');
+
+} else if (isset($_GET['objet']) && $_GET['objet'] === 'Utilisateur') {
+    $idUtilisateur = $_GET['id'];
+
+    Utilisateur::supprimer($idUtilisateur);
+
+    session_start();
+
+    $_SESSION = array();
+
+    session_destroy();
+    setcookie('id', '');
+
+    header('Location: ../');
 }

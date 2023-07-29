@@ -2,7 +2,7 @@
 
 /* 
  * File: rechercher
- * author: Michael Matona
+ * author: Ketsia
  */
 
  

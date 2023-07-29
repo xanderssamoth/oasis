@@ -29,4 +29,9 @@ class Etat extends Table {
         return App::getDb()->mInsert('UPDATE etats SET nom_etat = :nom_etat, description_etat = :description_etat, couleur = :couleur, modifiee_a = NOW() WHERE etats.id = :id', 
                         array('nom_etat' => $nom, 'description_etat' => $description, 'couleur' => $couleur, 'id' => $id), __CLASS__);
     }
+
+    // Trouver un état par son nom
+    public static function trouverParNom($nom) {
+        return self::query('SELECT * FROM etats WHERE nom_etat = :nom_etat', array('nom_etat' => $nom));
+    }
 }

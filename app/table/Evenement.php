@@ -29,4 +29,9 @@ class Evenement extends Table {
         return App::getDb()->mInsert('UPDATE evenements SET nom_evenement = :nom_evenement, prix_acompte = :prix_acompte, prix_total = :prix_total, id_etat = :id_etat, modifiee_a = NOW() WHERE evenements.id = :id', 
                         array('nom_evenement' => $nomEvenement, 'prix_acompte' => $prixAcompte, 'prix_total' => $prixTotal, 'id_etat' => $idEtat, 'id' => $idEvenement), __CLASS__);
     }
+
+    // Modifier l'état de l'événement
+    public static function changerEtat($idEtat, $idEvenement) {
+        return App::getDb()->mInsert('UPDATE evenements SET id_etat = :id_etat, modifiee_a = NOW() WHERE evenements.id = :id', array('id_etat' => $idEtat, 'id' => $idEvenement), __CLASS__);
+    }
 }

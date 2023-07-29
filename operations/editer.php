@@ -1,90 +1,205 @@
 <?php
 
 /* 
- * File: editer
- * author: Michael Matona
+ * File: ajouter
+ * author: Ketsia
  */
 
+use app\table\Etat;
+use app\table\Evenement;
+use app\table\Reservation;
+use app\table\Role;
+use app\table\Utilisateur;
+ 
 require '../app/Autoloader.php';
-
+ 
 app\Autoloader::register();
+ 
+// ESPACE ADMIN
+if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
+    $idRole = $_POST['id_role'];
+    $nomRole = $_POST['register_nom_role'];
+    $descriptionRole = $_POST['register_description_role'];
 
-use app\table\Agent;
-use app\table\Fonction;
+    Role::modifier($nomRole, $descriptionRole, $idRole);
 
-if (isset($_POST['objet']) && $_POST['objet'] === 'agent') {
-    // Modifier l'agent en cours
-    $idAgent = $_POST['id_agent'];
-    $matricule = $_POST['enregistrer_matricule'];
-    $nom = $_POST['enregistrer_nom'];
-    $postnom = $_POST['enregistrer_postnom'];
-    $telephone = $_POST['enregistrer_telephone'];
-    $motDePasse = sha1($_POST['enregistrer_motDePasse']);
-    $idFonction = $_POST['id_fonction'];
-
-    Agent::updateAgent($matricule, $nom, $postnom, $telephone, $idFonction, $idAgent);
-
-    // On détruit la session en cours
-    session_destroy();
-    setcookie('nom', $nom);
-    setcookie('postnom', $postnom);
-
-    // On crée une autre session avec les nouvelles informations du compte
     session_start();
 
-    $_SESSION['id'] = $idAgent;
-    $_SESSION['nom'] = $nom;
-    $_SESSION['postnom'] = $postnom;
+    $_SESSION['reussi'] = 'Rôle modifié';
 
-    header('Location: ../admin/?p=compte&msg=modifie');
+    header('Location: ../admin/role');
+
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'etat') {
+    $idEtat = $_POST['id_etat'];
+    $nomEtat = $_POST['register_nom_etat'];
+    $descriptionEtat = $_POST['register_description_etat'];
+    $couleur = $_POST['register_couleur'];
+
+    Etat::modifier($nomEtat, $descriptionEtat, $couleur, $idEtat);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Etat modifié';
+
+    header('Location: ../admin/etat');
+
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'evenement') {
+    $idEvenement = $_POST['id_evenement'];
+    $nomEvenement = $_POST['register_nom_evenement'];
+    $prixAccompte = $_POST['register_prix_accompte'];
+    $prixTotal = $_POST['register_prix_total'];
+    $idEtat = $_POST['id_etat'];
+
+    Evenement::modifier($nomEvenement, $prixAccompte, $prixTotal, $idEtat, $idEvenement);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Evénement modifié';
+
+    header('Location: ../admin/evenement');
+
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'role_utilisateur') {
+    $idUtilisateur = $_POST['id_utilisateur'];
+    $idRole = $_POST['id_role'];
+
+    Utilisateur::changerRole($idRole, $idUtilisateur);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Votre rôle a été changé';
+
+    header('Location: ../admin/role');
+
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'etat_utilisateur') {
+    $idUtilisateur = $_POST['id_utilisateur'];
+    $idEtat = $_POST['id_etat'];
+
+    Utilisateur::changerEtat($idEtat, $idUtilisateur);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Votre état a été changé';
+
+    header('Location: ../admin/role');
+
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'etat_evenement') {
+    $idEvenement = $_POST['id_evenement'];
+    $idEtat = $_POST['id_etat'];
+
+    Evenement::changerEtat($idEtat, $idEvenement);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Etat de l\'événement changé';
+
+    header('Location: ../admin/event');
+
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'etat_reservation') {
+    $idReservation = $_POST['id_reservation'];
+    $idEtat = $_POST['id_etat'];
+
+    Reservation::changerEtat($idEtat, $idReservation);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Etat de la réservation changé';
+
+    header('Location: ../admin/bookings');
+
+// ESPACE PUBLIC
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'compte') {
+    $idUtilisateur = $_POST['id_utilisateur'];
+    $prenom = $_POST['register_prenom'];
+    $nom = $_POST['register_nom'];
+    $postNom = $_POST['register_post_nom'];
+    $email = $_POST['register_email'];
+    $telephone = $_POST['register_telephone'];
+    $sexe = $_POST['register_sexe'];
+    $dateDeNaissance = isset($_POST['register_date_de_naissance']) ? explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . '-' . explode('/', $_POST['register_date_de_naissance'])[0] : null;
+
+    Utilisateur::modifier($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $idUtilisateur);
+
+    session_start();
+
+    $_SESSION['reussi'] = 'Modification réussie';
+
+    header('Location: ../account');
 
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'mot_de_passe') {
-    $idAgent = $_POST['id_agent'];
-    // Sélectionner les informations de l'agent en cours pour tester la validité du mot de passe
-    $currentAgent = Agent::findById($idAgent);
-    // Modifier le mot de passe de l'agent en cours
-    $ancienMotDePasse = sha1($_POST['ancien_motDePasse']);
-    $nouveauMotDePasse = $_POST['nouveau_motDePasse'];
-    $confirmerNouveauMotDePasse = $_POST['confirmer_nouveau_motDePasse'];
+    $idUtilisateur = $_POST['id_utilisateur'];
+    $ancienMotDePasse = sha1($_POST['register_ancien_mot_de_passe']);
+    $nouveauMotDePasse = sha1($_POST['register_nouveau_mot_de_passe']);
+    $confirmerNouveauMotDePasse = $_POST['confirmer_nouveau_mot_de_passe'];
+    $verififierAncienMotDePasse = Utilisateur::trouverParIdEtMotDePasse($idUtilisateur, $ancienMotDePasse);
 
-    if ($ancienMotDePasse != $currentAgent[0]->mot_de_passe) {
-        header('Location: ../admin/?p=changer_mot_de_passe&msg=motdepasse');
+    if (!$verififierAncienMotDePasse) {
+        session_start();
 
-    } else if ($confirmerNouveauMotDePasse != $nouveauMotDePasse) {
-        header('Location: ../admin/?p=changer_mot_de_passe&msg=confirmermotdepasse');
+        $_SESSION['erreur'] = 'Ancien mot de passe incorrect';
+
+        header('Location: ../account');
 
     } else {
-        Agent::updateMotDePasse(sha1($nouveauMotDePasse), $idAgent);
 
-        header('Location: ../admin/?p=changer_mot_de_passe&msg=modifie');
+        if ($_POST['register_nouveau_mot_de_passe'] != $confirmerNouveauMotDePasse) {
+            session_start();
+
+            $_SESSION['erreur'] = 'Veuillez confirmer le nouveau mot de passe';
+
+            header('Location: ../account');
+
+        } else {
+            Utilisateur::changerMotDePasse($motDePasse, $idUtilisateur);
+
+            session_start();
+
+            $_SESSION['reussi'] = 'Mot de passe modifié';
+
+            header('Location: ../account');
+        }
     }
 
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'fonction') {
-    $fonction = $_POST['enregistrer_nomFonction'];
+} else if (isset($_POST['objet']) && $_POST['objet'] === 'reservation') {
+    $idUtilisateur = $_POST['id_utilisateur'];
+    $idEvenement = $_POST['id_evenement'];
+    $date = $_POST['register_date'];
+    $heureDebut = $_POST['register_heure_debut'];
+    $heureFin = $_POST['register_heure_fin'];
+    $idEtat = $_POST['id_etat'];
 
-    Fonction::updateFonction($fonction);
+    if ($date == null) {
+        session_start();
 
-    header('Location: ../admin/?p=fonction&msg=enregistree');
+        $_SESSION['erreur'] = 'Veuillez choisir une date';
 
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'agent') {
+        header('Location: ../booking');
 
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'secteur') {
+    } else if ($heureDebut == null OR $heureDebut == null) {
+        session_start();
 
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'taxe') {
+        $_SESSION['erreur'] = 'Heure de début et de fin obligatoires';
 
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'forme_juridique') {
+        header('Location: ../booking');
+
+    } else {
+        Reservation::creer($idUtilisateur, $idEvenement, $date, $heureDebut, $heureFin, $idEtat);
+
+        session_start();
+
+        $_SESSION['reussi'] = 'Réservation enregistrée';
+
+        header('Location: ../bookings');
+    }
 
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'photo') {
-    $id_agent = $_POST['id_agent'];
+    $idUtilisateur = $_POST['id_utilisateur'];
     $data = $_POST['avatar'];
     $image_array_1 = explode(';', $data);
     $image_array_2 = explode(',', $image_array_1[1]);
     $data = base64_decode($image_array_2[1]);
-    $image_name = 'C:\\xampp\\htdocs\\img\\agents_site_env\\' . $id_agent . '.png';
+    $image_name = 'C:\\xampp\\htdocs\\img\\oasis\\' . $idUtilisateur . '.png';
 
     file_put_contents($image_name, $data);
 
     echo $image_name;
 }
-
- 

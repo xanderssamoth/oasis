@@ -94,11 +94,9 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
     $email = $_POST['register_email'];
     $telephone = $_POST['register_telephone'];
     $sexe = $_POST['register_sexe'];
-    $dateDeNaissance = explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . '-' . explode('/', $_POST['register_date_de_naissance'])[0];
+    $dateDeNaissance = isset($_POST['register_date_de_naissance']) ? explode('/', $_POST['register_date_de_naissance'])[2] . '-' . explode('/', $_POST['register_date_de_naissance'])[1] . '-' . explode('/', $_POST['register_date_de_naissance'])[0] : null;
     $motDePasse = sha1($_POST['register_mot_de_passe']);
     $confirmerMotDePasse = $_POST['confirmer_mot_de_passe'];
-    $idRole = $_POST['id_role'];
-    $idEtat = $_POST['id_etat'];
 
     if ($_POST['register_mot_de_passe'] != $confirmerMotDePasse) {
         session_start();
@@ -108,7 +106,9 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
         header('Location: ../register');
 
     } else {
-        $utilisateurEnCours = Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $motDePasse, $idRole, $idEtat);
+        $role_client = Role::trouverParNom('Client');
+        $etat_active = Etat::trouverParNom('Activé');
+        $utilisateurEnCours = Utilisateur::creer($prenom, $nom, $postNom, $email, $telephone, $sexe, $dateDeNaissance, $motDePasse, $role_client[0]->id, $etat_active[0]->id);
 
         session_start();
 
@@ -149,16 +149,4 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
 
         header('Location: ../bookings');
     }
-
-} else if (isset($_POST['objet']) && $_POST['objet'] === 'photo') {
-    $idUtilisateur = $_POST['id_utilisateur'];
-    $data = $_POST['avatar'];
-    $image_array_1 = explode(';', $data);
-    $image_array_2 = explode(',', $image_array_1[1]);
-    $data = base64_decode($image_array_2[1]);
-    $image_name = 'C:\\xampp\\htdocs\\img\\oasis\\' . $idUtilisateur . '.png';
-
-    file_put_contents($image_name, $data);
-
-    echo $image_name;
 }

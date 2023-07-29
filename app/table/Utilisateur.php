@@ -31,11 +31,6 @@ class Utilisateur extends Table {
                         array('prenom' => $prenom, 'nom' => $nom, 'post_nom' => $postNom, 'email' => $email, 'telephone' => $telephone, 'sexe' => $sexe, 'date_de_naissance' => $dateDeNaissance, 'id' => $idUtilisateur), __CLASS__);
     }
 
-    // Modifier le mot de passe d'un utilisateur
-    public static function modifierMotDePasse($motDePasse, $idUtilisateur) {
-        return App::getDb()->mInsert('UPDATE utilisateurs SET mot_de_passe = :mot_de_passe, modifiee_a = NOW() WHERE utilisateurs.id = :id', array('mot_de_passe' => $motDePasse, 'id' => $idUtilisateur), __CLASS__);
-    }
-
     // Modifier l'URL de la photo de profil
     public static function changerProfil($avatarURL, $idUtilisateur) {
         return App::getDb()->mInsert('UPDATE utilisateurs SET avatar_url = :avatar_url, modifiee_a = NOW() WHERE utilisateurs.id = :id', array('avatar_url' => $avatarURL, 'id' => $idUtilisateur), __CLASS__);
@@ -49,6 +44,16 @@ class Utilisateur extends Table {
     // Modifier l'état de l'utilisateur
     public static function changerEtat($idEtat, $idUtilisateur) {
         return App::getDb()->mInsert('UPDATE utilisateurs SET id_etat = :id_etat, modifiee_a = NOW() WHERE utilisateurs.id = :id', array('id_etat' => $idEtat, 'id' => $idUtilisateur), __CLASS__);
+    }
+
+    // Modifier le mot de passe d'un utilisateur
+    public static function changerMotDePasse($motDePasse, $idUtilisateur) {
+        return App::getDb()->mInsert('UPDATE utilisateurs SET mot_de_passe = :mot_de_passe, modifiee_a = NOW() WHERE utilisateurs.id = :id', array('mot_de_passe' => $motDePasse, 'id' => $idUtilisateur), __CLASS__);
+    }
+
+    // Trouver un utilisateur par id et mot de passe
+    public static function trouverParIdEtMotDePasse($id, $motDePasse) {
+        return self::query('SELECT * FROM utilisateurs WHERE id = :id AND mot_de_passe = :mot_de_passe', array('id' => $id, 'mot_de_passe' => $motDePasse));
     }
 
     // Trouver un utilisateur par e-mail et mot de passe

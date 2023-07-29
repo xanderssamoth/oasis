@@ -8,7 +8,7 @@ if (!isset($_SESSION['id'])) {
 require('../templates/admin/entete.php')
 ?>
 
-        <div class="breadcrumb-section">
+        <div class="breadcrumb-section pb-5">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
