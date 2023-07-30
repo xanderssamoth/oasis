@@ -128,7 +128,7 @@
                 var done = function (url) {
                     retrievedAvatar.src = url;
 
-                    $('#cropModalImage').modal('show');
+                    $('#cropModal').modal('show');
                 };
 
                 if (files && files.length > 0) {
@@ -141,7 +141,7 @@
                 }
             });
 
-            $('#cropModalImage').on('shown.bs.modal', function () {
+            $('#cropModal').on('shown.bs.modal', function () {
                 cropper = new Cropper(retrievedAvatar, {
                     aspectRatio: 1,
                     viewMode: 3,
@@ -154,7 +154,7 @@
                 cropper = null;
             });
 
-            $('#cropModalImage #crop').click(function () {
+            $('#cropModal #crop').click(function () {
                 // Une animation pour faire attendre l'utilisateur pendant le chargement
                 $('.user-image').attr('src', currentHost + '/assets/img/ajax-loader.gif');
 
@@ -174,7 +174,7 @@
                         var url = currentHost + '/operations/editer.php';
                         var datas = { 'objet': 'photo', 'id_utilisateur': user_id, 'avatar': base64_data };
 
-                        $('#cropModalImage').modal('hide');
+                        $('#cropModal').modal('hide');
 
                         $.ajax({
                             type: 'POST',
