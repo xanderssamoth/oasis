@@ -7,7 +7,7 @@ app\Autoloader::register();
 use app\table\Evenement;
 use app\table\Utilisateur;
 
-$racineDossier = '/webapp/oasis/public';
+$racineDossier = '/oasis/public';
 $listeEvenements = Evenement::trouverTout();
 ?>
 <!DOCTYPE html>

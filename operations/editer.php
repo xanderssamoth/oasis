@@ -42,7 +42,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
 
     $_SESSION['reussi'] = 'Etat modifié';
 
-    header('Location: ../admin/etat');
+    header('Location: ../admin/status');
 
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'evenement') {
     $idEvenement = $_POST['id_evenement'];
@@ -57,7 +57,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
 
     $_SESSION['reussi'] = 'Evénement modifié';
 
-    header('Location: ../admin/evenement');
+    header('Location: ../admin/event');
 
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'role_utilisateur') {
     $idUtilisateur = $_POST['id_utilisateur'];

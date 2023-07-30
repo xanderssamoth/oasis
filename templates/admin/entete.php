@@ -14,7 +14,7 @@ use app\table\Reservation;
 use app\table\Role;
 use app\table\Utilisateur;
 
-$racineDossier = '/webapp/oasis/admin';
+$racineDossier = '/oasis/admin';
 $utilisateurEnCours = Utilisateur::trouverAvecRoleEtEtat($_SESSION['id']);
 
 if ($utilisateurEnCours[0]->nom_rol != 'Administrateur') {
@@ -23,7 +23,9 @@ if ($utilisateurEnCours[0]->nom_rol != 'Administrateur') {
 
 $compterRole = Role::compterTout();
 $listeRoles = Role::trouverTout();
+$compterEtat = Etat::compterTout();
 $listeEtats = Etat::trouverTout();
+$compterEvenement = Evenement::compterTout();
 $listeEvenements = Evenement::trouverTout();
 $listeReservations = Reservation::trouverToutesAvecDetails();
 ?>

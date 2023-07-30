@@ -70,7 +70,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
 
     $_SESSION['reussi'] = 'Etat enregistré';
 
-    header('Location: ../admin/etat');
+    header('Location: ../admin/status');
 
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'evenement') {
     $nomEvenement = $_POST['register_nom_evenement'];
@@ -84,7 +84,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
 
     $_SESSION['reussi'] = 'Evénement enregistré';
 
-    header('Location: ../admin/evenement');
+    header('Location: ../admin/event');
 
 // ESPACE PUBLIC
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'client') {

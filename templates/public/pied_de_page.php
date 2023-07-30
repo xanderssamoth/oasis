@@ -119,7 +119,7 @@
             /**
              * Codes pour uploader une image recadrée
              */
-            var currentHost = 'http://localhost:82/webapp/oasis';
+            var currentHost = 'http://localhost:82/oasis';
             var retrievedAvatar = document.getElementById('retrieved_image');
             var cropper;
 
