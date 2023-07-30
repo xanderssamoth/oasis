@@ -53,6 +53,9 @@ $listeReservations = Reservation::trouverToutesAvecDetails();
         <link rel="stylesheet" type="text/css" href="../assets/css/jquery-ui.min.css">
         <link rel="stylesheet" type="text/css" href="../assets/css/magnific-popup.css">
         <link rel="stylesheet" type="text/css" href="../assets/css/slicknav.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/cropper.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/sweetalert2.min.css">
         <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 
         <style>

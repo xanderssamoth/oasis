@@ -10,7 +10,8 @@ use app\table\Evenement;
 use app\table\Reservation;
 use app\table\Role;
 use app\table\Utilisateur;
- 
+use app\table\Utility;
+
 require '../app/Autoloader.php';
  
 app\Autoloader::register();
@@ -197,9 +198,13 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
     $image_array_1 = explode(';', $data);
     $image_array_2 = explode(',', $image_array_1[1]);
     $data = base64_decode($image_array_2[1]);
-    $image_name = 'C:\\xampp\\htdocs\\img\\oasis\\' . $idUtilisateur . '.png';
+    $image_name = 'C:\\xampp\\htdocs\\img\\oasis\\' . Utility::random_str() . '.png';
 
     file_put_contents($image_name, $data);
 
-    echo $image_name;
+    $utilisateurEnCours = Utilisateur::trouverParId($idUtilisateur);
+
+    Utilisateur::changerProfil($image_name, $utilisateurEnCours[0]->id);
+
+    return $utilisateurEnCours[0];
 }
