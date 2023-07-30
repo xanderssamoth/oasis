@@ -33,11 +33,12 @@
         <script src="../assets/js/sweetalert2.all.min.js"></script>
         <script src="../assets/js/main.js"></script>
         <script type="text/javascript">
+            var currentHost = 'http://localhost:82/oasis';
+            var url = currentHost + '/operations/editer.php';
+
             // Fonction pour changer l'état d'un utilisateur
             function changeUserStatus(id) {
                 var element = document.getElementById(id);
-                var currentHost = 'http://localhost:82/oasis';
-                var url = currentHost + '/operations/editer.php';
                 var datas = {'objet' : 'etat_utilisateur', 'id_utilisateur' : parseInt(id.split('-')[1]), 'id_etat' : (element.getAttribute('aria-status') === 'Activé' ? 3 : 1)};
 
                 $.ajax({
@@ -59,8 +60,6 @@
             // Fonction pour changer l'état d'un événément
             function changeEventStatus(id) {
                 var element = document.getElementById(id);
-                var currentHost = 'http://localhost:82/oasis';
-                var url = currentHost + '/operations/editer.php';
                 var datas = {'objet' : 'etat_evenement', 'id_evenement' : parseInt(id.split('-')[1]), 'id_etat' : (element.getAttribute('aria-status') === 'Activé' ? 2 : 1)};
 
                 $.ajax({
@@ -82,9 +81,7 @@
             // Fonction pour changer l'état d'une réservation
             function changeReservationStatus(id) {
                 var element = document.getElementById(id);
-                var currentHost = 'http://localhost:82/oasis';
-                var url = currentHost + '/operations/editer.php';
-                var datas = {'objet' : 'etat_reservation', 'id_reservation' : parseInt(id.split('-')[1]), 'id_etat' : (element.getAttribute('aria-status') === 'Servie' ? 6 : 5)};
+                var datas = {'objet' : 'etat_reservation', 'id_reservation' : parseInt(id.split('-')[1]), 'id_etat' : (element.getAttribute('aria-status') === 'Totalité' ? 4 : 5)};
 
                 $.ajax({
                     type: 'POST',

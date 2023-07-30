@@ -65,6 +65,34 @@ if ($_SERVER['PHP_SELF'] == $racineDossier . '/account.php') {
     </head>
 
     <body>
+        <!-- Modal crop image -->
+        <div class="modal fade" id="cropModal" tabindex="-1" aria-labelledby="cropModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cropModalLabel">Recadrer avant d'enregistrer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 mb-sm-0 mb-4">
+                                    <div class="bg-image">
+                                        <img src="" id="retrieved_image" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <input type="hidden" name="id_utilisateur" id="id_utilisateur" value="<?= $_SESSION['id'] ?>">
+                        <button type="button" class="btn btn-light border border-default shadow-0" data-dismiss="modal">Annuler</button>
+                        <button type="button" id="crop" class="btn btn-primary shadow-0">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Page Preloder -->
         <div id="preloder">
             <div class="loader"></div>

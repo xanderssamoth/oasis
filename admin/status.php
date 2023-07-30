@@ -107,7 +107,7 @@ if (isset($_GET['id'])) {
 
                     <div class="col-lg-7 col-sm-6">
 <?php
-    if ($compterEtat > 0) {
+    if ($compterEtat[0]->nbr > 0) {
 ?>
                         <ul class="list-group mb-5">
 <?php

@@ -97,7 +97,7 @@ if (isset($_GET['id'])) {
 
                     <div class="col-lg-7 col-sm-6">
 <?php
-    if ($compterRole > 0) {
+    if ($compterRole[0]->nbr > 0) {
 ?>
                         <ul class="list-group mb-5">
 <?php
