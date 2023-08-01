@@ -1,6 +1,7 @@
 <?php
 
 use app\table\Evenement;
+use app\Utility;
 
 session_start();
 
@@ -139,8 +140,8 @@ if (isset($_GET['id'])) {
                                 </div>
 
                                 <h3 class="h3-responsive mb-2"><?= $evenement->nom_evenement ?></h3>
-                                <p class="mb-0 text-secondary"><u>Prix acompte</u> : <?= (int) $evenement->prix_acompte ?></p>
-                                <p class="mb-0 text-secondary"><u>Prix total</u> : <?= (int) $evenement->prix_total ?></p>
+                                <p class="mb-0 text-secondary"><u>Prix acompte</u> : <?= Utility::formatNumber($evenement->prix_acompte) ?></p>
+                                <p class="mb-0 text-secondary"><u>Prix total</u> : <?= Utility::formatNumber($evenement->prix_total) ?></p>
                             </li>
 <?php
         endforeach;

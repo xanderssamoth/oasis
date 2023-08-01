@@ -1,6 +1,6 @@
 <?php
 
-namespace app\table;
+namespace app;
 
 /**
  * La classe Utility permet de faire quelques opérations 
@@ -10,7 +10,7 @@ namespace app\table;
  */
 class Utility {
     // Génerer des caractères alphanumériques aléatoires
-    public static function random_str(
+    public static function randomStr(
         int $length = 10,
         string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     ): string {
@@ -26,5 +26,9 @@ class Utility {
         }
 
         return implode('', $pieces);
+    }
+
+    public static function formatNumber($number) : string {
+        return number_format($number, 0, ',', ' ');
     }
 }
