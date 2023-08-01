@@ -60,9 +60,20 @@ if (isset($_GET['id'])) {
                                     <input type="text" name="register_nom_etat" id="register_nom_etat" placeholder="Nom de l'état" value="<?= $etatEnCours[0]->nom_etat ?>" required autofocus>
                                 </div>
 
-                                <div class="check-date">
-                                    <label for="register_couleur" class="sr-only">Couleur :</label>
-                                    <input type="text" name="register_couleur" id="register_couleur" placeholder="Couleur" value="<?= $etatEnCours[0]->couleur ?>">
+                                <div class="mb-3 text-center">
+                                    <p class="mb-0 small text-muted text-uppercase">Couleur</p>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="register_couleur" id="success" class="form-check-input" value="success"<?= $etatEnCours[0]->couleur == 'success' ? ' checked' : '' ?>>
+                                        <label for="success" class="form-check-label" style="cursor: pointer;">Vert</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="register_couleur" id="warning" class="form-check-input" value="warning"<?= $etatEnCours[0]->couleur == 'warning' ? ' checked' : '' ?>>
+                                        <label for="warning" class="form-check-label" style="cursor: pointer;">Orange</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="register_couleur" id="danger" class="form-check-input" value="danger"<?= $etatEnCours[0]->couleur == 'danger' ? ' checked' : '' ?>>
+                                        <label for="danger" class="form-check-label" style="cursor: pointer;">Rouge</label>
+                                    </div>
                                 </div>
 
                                 <div class="check-date">
@@ -90,9 +101,20 @@ if (isset($_GET['id'])) {
                                     <input type="text" name="register_nom_etat" id="register_nom_etat" placeholder="Nom de l'état" required autofocus>
                                 </div>
 
-                                <div class="check-date">
-                                    <label for="register_couleur" class="sr-only">Couleur :</label>
-                                    <input type="text" name="register_couleur" id="register_couleur" placeholder="Couleur">
+                                <div class="mb-3 text-center">
+                                    <p class="mb-0 small text-muted text-uppercase">Couleur</p>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="register_couleur" id="success" class="form-check-input" value="success">
+                                        <label for="success" class="form-check-label" style="cursor: pointer;">Vert</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="register_couleur" id="warning" class="form-check-input" value="warning">
+                                        <label for="warning" class="form-check-label" style="cursor: pointer;">Orange</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="register_couleur" id="danger" class="form-check-input" value="danger">
+                                        <label for="danger" class="form-check-label" style="cursor: pointer;">Rouge</label>
+                                    </div>
                                 </div>
 
                                 <div class="check-date">

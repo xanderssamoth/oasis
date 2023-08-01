@@ -54,15 +54,27 @@ if (isset($_GET['id'])) {
                             <form method="POST" action="../operations/editer.php">
                                 <input type="hidden" name="objet" value="evenement">
                                 <input type="hidden" name="id_evenement" value="<?= $evenementEnCours[0]->id ?>">
+                                <input type="hidden" name="id_etat" value="<?= $evenementEnCours[0]->id_etat ?>">
 
                                 <div class="check-date">
                                     <label for="register_nom_evenement" class="sr-only">Nom de l'événement :</label>
                                     <input type="text" name="register_nom_evenement" id="register_nom_evenement" placeholder="Nom de l'événement" value="<?= $evenementEnCours[0]->nom_evenement ?>" required autofocus>
                                 </div>
 
-                                <div class="check-date">
-                                    <label for="register_description_evenement" class="sr-only">Description :</label>
-                                    <textarea name="register_description_evenement" id="register_description_evenement" placeholder="Description"><?= $evenementEnCours[0]->description_evenement ?></textarea>
+                                <div class="row">
+                                    <div class="col-12">Prix en USD</div>
+                                    <div class="col-lg-6">
+                                        <div class="check-date">
+                                            <label for="register_prix_accompte" class="mb-1">Prix acompte en USD :</label>
+                                            <input type="number" name="register_prix_accompte" id="register_prix_accompte" placeholder="Prix total en USD" value="<?= $evenementEnCours[0]->prix_acompte ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="check-date">
+                                            <label for="register_prix_total" class="mb-1">Prix total en USD :</label>
+                                            <input type="number" name="register_prix_total" id="register_prix_total" placeholder="Prix total en USD" value="<?= $evenementEnCours[0]->prix_total ?>" required>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <button type="submit" class="mt-0 mb-3">Enregistrer</button>
@@ -79,15 +91,26 @@ if (isset($_GET['id'])) {
 
                             <form method="POST" action="../operations/ajouter.php">
                                 <input type="hidden" name="objet" value="evenement">
+                                <input type="hidden" name="id_etat" value="1">
 
                                 <div class="check-date">
                                     <label for="register_nom_evenement" class="sr-only">Nom de l'événement :</label>
                                     <input type="text" name="register_nom_evenement" id="register_nom_evenement" placeholder="Nom de l'événement" required autofocus>
                                 </div>
 
-                                <div class="check-date">
-                                    <label for="register_description_evenement" class="sr-only">Description :</label>
-                                    <textarea name="register_description_evenement" id="register_description_evenement" placeholder="Description"></textarea>
+                                <div class="row mb-3">
+                                    <div class="col-lg-6">
+                                        <div class="check-date">
+                                            <label for="register_prix_accompte" class="mb-1">Prix acompte en USD :</label>
+                                            <input type="number" name="register_prix_accompte" id="register_prix_accompte" placeholder="Prix acompte en USD" value="0" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="check-date">
+                                            <label for="register_prix_total" class="mb-1">Prix total en USD :</label>
+                                            <input type="number" name="register_prix_total" id="register_prix_total" placeholder="Prix total en USD" value="0" required>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <button type="submit" class="mt-0 mb-3">Enregistrer</button>
@@ -116,7 +139,8 @@ if (isset($_GET['id'])) {
                                 </div>
 
                                 <h3 class="h3-responsive mb-2"><?= $evenement->nom_evenement ?></h3>
-                                <p class="mb-0 text-secondary"><?= $evenement->description_evenement ?></p>
+                                <p class="mb-0 text-secondary"><u>Prix acompte</u> : <?= (int) $evenement->prix_acompte ?></p>
+                                <p class="mb-0 text-secondary"><u>Prix total</u> : <?= (int) $evenement->prix_total ?></p>
                             </li>
 <?php
         endforeach;

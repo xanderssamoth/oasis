@@ -47,6 +47,7 @@ $listeReservations = Reservation::trouverToutesAvecDetails();
 
         <!-- Css Styles -->
         <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap4-toggle.min.css">
         <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="../assets/css/elegant-icons.css">
         <link rel="stylesheet" type="text/css" href="../assets/css/flaticon.css">
