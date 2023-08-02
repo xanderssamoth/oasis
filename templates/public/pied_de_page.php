@@ -24,6 +24,7 @@
         <script src="./assets/js/jquery.magnific-popup.min.js"></script>
         <script src="./assets/js/jquery.nice-select.min.js"></script>
         <script src="./assets/js/jquery-ui.min.js"></script>
+        <script src="./assets/js/jquery.timepicker.min.js"></script>
         <script src="./assets/js/jquery.slicknav.js"></script>
         <script src="./assets/js/owl.carousel.min.js"></script>
         <script src="./assets/js/cropper.min.js"></script>
@@ -119,12 +120,12 @@
             // DataTable
             new DataTable('#dataList', {
                 'language': {
-                    "url": '../assets/js/dataTables.i18n.fr-FR.json'
+                    "url": './assets/js/dataTables.i18n.fr-FR.json'
                 }
             });
 
             // jQuery DatePicker
-            $('#register_date_de_naissance').datepicker({
+            $('#register_date_de_naissance, #register_date').datepicker({
                 dateFormat: 'dd/mm/yy',
                 onSelect: function () {
                     $(this).focus();
@@ -142,7 +143,7 @@
             /**
              * Codes pour uploader une image recadrée
              */
-            var currentHost = 'http://localhost:82/oasis';
+            var currentHost = 'http://localhost:7882/oasis';
             var retrievedAvatar = document.getElementById('retrieved_image');
             var cropper;
 
@@ -193,7 +194,7 @@
                     reader.readAsDataURL(blob);
                     reader.onloadend = function () {
                         var base64_data = reader.result;
-                        var user_id = document.getElementById('user_id').value;
+                        var user_id = document.getElementById('id_utilisateur').value;
                         var url = currentHost + '/operations/editer.php';
                         var datas = { 'objet': 'photo', 'id_utilisateur': user_id, 'avatar': base64_data };
 

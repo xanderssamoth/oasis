@@ -133,6 +133,13 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
 
         header('Location: ../booking');
 
+    } else if ($idEvenement == null) {
+        session_start();
+
+        $_SESSION['erreur'] = 'Veuillez choisir un événement';
+
+        header('Location: ../booking');
+
     } else if ($heureDebut == null OR $heureDebut == null) {
         session_start();
 
@@ -141,7 +148,9 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
         header('Location: ../booking');
 
     } else {
-        Reservation::creer($idUtilisateur, $idEvenement, $date, $heureDebut, $heureFin, $idEtat);
+        $dateFormatee = explode('/', $_POST['register_date'])[2] . '-' . explode('/', $_POST['register_date'])[1] . '-' . explode('/', $_POST['register_date'])[0];
+
+        Reservation::creer($idUtilisateur, $idEvenement, $dateFormatee, $heureDebut, $heureFin, $idEtat);
 
         session_start();
 

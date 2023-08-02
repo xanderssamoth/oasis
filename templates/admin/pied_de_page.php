@@ -35,7 +35,7 @@
         <script src="../assets/js/main.js"></script>
         <script type="text/javascript">
             // Hôte en cours
-            var currentHost = 'http://localhost:82/oasis';
+            var currentHost = 'http://localhost:7882/oasis';
             // URL pour éditer les états dans les fonctions ci-dessous
             var url = currentHost + '/operations/editer.php';
 

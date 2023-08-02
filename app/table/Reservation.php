@@ -45,7 +45,7 @@ class Reservation extends Table {
                         . 'evenements.creee_a creeeA_even, evenements.modifiee_a modifieeA_even, evenements.id_etat idEtat_even, '
                         . 'etats.id id_eta, etats.nom_etat nom_eta, etats.description_etat descript_eta, etats.couleur couleur_eta, etats.creee_a creeeA_eta, etats.modifiee_a modifieeA_eta '
                         . 'FROM reservations, utilisateurs, evenements, etats '
-                        . 'WHERE reservations.id_utilisateur = utilisateurs.id AND reservations.id_evenement = evenements.id AND reservations.id_etat = etats.id ORDER BY reservations.creee_a ASC');
+                        . 'WHERE reservations.id_utilisateur = utilisateurs.id AND reservations.id_evenement = evenements.id AND reservations.id_etat = etats.id ORDER BY reservations.creee_a DESC');
     }
 
     // Trouver une réservation avec infos détaillés
@@ -58,6 +58,6 @@ class Reservation extends Table {
                         . 'evenements.creee_a creeeA_even, evenements.modifiee_a modifieeA_even, evenements.id_etat idEtat_even, '
                         . 'etats.id id_eta, etats.nom_etat nom_eta, etats.description_etat descript_eta, etats.couleur couleur_eta, etats.creee_a creeeA_eta, etats.modifiee_a modifieeA_eta '
                         . 'FROM reservations, utilisateurs, evenements, etats '
-                        . 'WHERE reservations.id_utilisateur = utilisateurs.id AND reservations.id_evenement = evenements.id AND reservations.id_etat = etats.id AND utilisateurs.id = ? ORDER BY reservations.creee_a ASC', [$idUtilisateur]);
+                        . 'WHERE reservations.id_utilisateur = utilisateurs.id AND reservations.id_evenement = evenements.id AND reservations.id_etat = etats.id AND utilisateurs.id = ? ORDER BY reservations.creee_a DESC', [$idUtilisateur]);
     }
 }

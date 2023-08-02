@@ -98,14 +98,20 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'etat_reservation') {
     $idReservation = $_POST['id_reservation'];
     $idEtat = $_POST['id_etat'];
-
+    
     Reservation::changerEtat($idEtat, $idReservation);
-
+    
     session_start();
-
+    
     $_SESSION['reussi'] = 'Etat de la réservation changé';
+    $utilisateurEnCours = Utilisateur::trouverAvecRoleEtEtat($_SESSION['id']);
 
-    header('Location: ../admin/bookings');
+    if ($utilisateurEnCours[0]->nom_rol == 'Administrateur') {
+        header('Location: ../admin/bookings');
+
+    } else {
+        header('Location: ../bookings');
+    }
 
 // ESPACE PUBLIC
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'compte') {
@@ -138,7 +144,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
 
         $_SESSION['erreur'] = 'Ancien mot de passe incorrect';
 
-        header('Location: ../account');
+        header('Location: ../account?p=update_password');
 
     } else {
 
@@ -147,7 +153,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
 
             $_SESSION['erreur'] = 'Veuillez confirmer le nouveau mot de passe';
 
-            header('Location: ../account');
+            header('Location: ../account?p=update_password');
 
         } else {
             Utilisateur::changerMotDePasse($motDePasse, $idUtilisateur);
@@ -156,7 +162,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
 
             $_SESSION['reussi'] = 'Mot de passe modifié';
 
-            header('Location: ../account');
+            header('Location: ../account?p=update_password');
         }
     }
 

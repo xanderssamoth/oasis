@@ -8,6 +8,7 @@ use app\table\Evenement;
 use app\table\Utilisateur;
 
 $racineDossier = '/oasis/public';
+$compterEvenement = Evenement::compterTout();
 $listeEvenements = Evenement::trouverTout();
 ?>
 <!DOCTYPE html>
@@ -58,6 +59,18 @@ if ($_SERVER['PHP_SELF'] == $racineDossier . '/register.php') {
 if ($_SERVER['PHP_SELF'] == $racineDossier . '/account.php') {
 ?>
             Profil
+<?php
+}
+
+if ($_SERVER['PHP_SELF'] == $racineDossier . '/booking.php') {
+?>
+            Réserver
+<?php
+}
+
+if ($_SERVER['PHP_SELF'] == $racineDossier . '/bookings.php') {
+?>
+            Mes réservations
 <?php
 }
 ?>
