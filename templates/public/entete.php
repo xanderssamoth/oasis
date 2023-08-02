@@ -34,6 +34,7 @@ $listeEvenements = Evenement::trouverTout();
         <link rel="stylesheet" type="text/css" href="./assets/css/owl.carousel.min.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/nice-select.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/jquery.timepicker.min.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/magnific-popup.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/slicknav.min.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/dataTables.bootstrap4.min.css">

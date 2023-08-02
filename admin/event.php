@@ -63,17 +63,16 @@ if (isset($_GET['id'])) {
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-12">Prix en USD</div>
                                     <div class="col-lg-6">
                                         <div class="check-date">
-                                            <label for="register_prix_accompte" class="mb-1">Prix acompte en USD :</label>
-                                            <input type="number" name="register_prix_accompte" id="register_prix_accompte" placeholder="Prix total en USD" value="<?= $evenementEnCours[0]->prix_acompte ?>" required>
+                                            <label for="register_prix_accompte" class="mb-1">Acompte en USD :</label>
+                                            <input type="number" name="register_prix_accompte" id="register_prix_accompte" placeholder="Acompte en USD" value="<?= (int) $evenementEnCours[0]->prix_acompte ?>" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="check-date">
                                             <label for="register_prix_total" class="mb-1">Prix total en USD :</label>
-                                            <input type="number" name="register_prix_total" id="register_prix_total" placeholder="Prix total en USD" value="<?= $evenementEnCours[0]->prix_total ?>" required>
+                                            <input type="number" name="register_prix_total" id="register_prix_total" placeholder="Prix total en USD" value="<?= (int) $evenementEnCours[0]->prix_total ?>" required>
                                         </div>
                                     </div>
                                 </div>
@@ -99,11 +98,11 @@ if (isset($_GET['id'])) {
                                     <input type="text" name="register_nom_evenement" id="register_nom_evenement" placeholder="Nom de l'événement" required autofocus>
                                 </div>
 
-                                <div class="row mb-3">
+                                <div class="row">
                                     <div class="col-lg-6">
                                         <div class="check-date">
-                                            <label for="register_prix_accompte" class="mb-1">Prix acompte en USD :</label>
-                                            <input type="number" name="register_prix_accompte" id="register_prix_accompte" placeholder="Prix acompte en USD" value="0" required>
+                                            <label for="register_prix_accompte" class="mb-1">Acompte en USD :</label>
+                                            <input type="number" name="register_prix_accompte" id="register_prix_accompte" placeholder="Acompte en USD" value="0" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -140,8 +139,12 @@ if (isset($_GET['id'])) {
                                 </div>
 
                                 <h3 class="h3-responsive mb-2"><?= $evenement->nom_evenement ?></h3>
-                                <p class="mb-0 text-secondary"><u>Prix acompte</u> : <?= Utility::formatNumber($evenement->prix_acompte) ?></p>
-                                <p class="mb-0 text-secondary"><u>Prix total</u> : <?= Utility::formatNumber($evenement->prix_total) ?></p>
+                                <p class="mb-0 text-secondary"><u>Acompte</u> : <?= Utility::formatNumber($evenement->prix_acompte) ?> USD</p>
+                                <p class="mb-0 text-secondary"><u>Prix total</u> : <?= Utility::formatNumber($evenement->prix_total) ?> USD</p>
+
+                                <div class="float-right">
+                                    <input type="checkbox" id="evenement-<?= $evenement->id ?>" data-toggle="toggle" data-size="xs" data-on="Activé" data-off="Désactivé" data-onstyle="success" data-offstyle="danger" data-style="ios" aria-status="<?= $evenement->id_etat == 1 ? 'Activé' : 'Désactivé' ?>"<?= $evenement->id_etat == 1 ? ' checked' : '' ?> onchange="changeEventStatus('evenement-<?= $evenement->id ?>')">
+                                </div>
                             </li>
 <?php
         endforeach;

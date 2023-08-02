@@ -34,8 +34,40 @@
         <script src="../assets/js/sweetalert2.all.min.js"></script>
         <script src="../assets/js/main.js"></script>
         <script type="text/javascript">
+            // Hôte en cours
             var currentHost = 'http://localhost:82/oasis';
+            // URL pour éditer les états dans les fonctions ci-dessous
             var url = currentHost + '/operations/editer.php';
+
+            // Fonction pour créer un cookie
+            function setCookie(name,value,days) {
+                var expires = "";
+
+                if (days) {
+                    var date = new Date();
+
+                    date.setTime(date.getTime() + (days*24*60*60*1000));
+
+                    expires = "; expires=" + date.toUTCString();
+                }
+
+                document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+            }
+
+            // Fonction pour récupérer un cookie par son nom
+            function getCookie(name) {
+                var cookies = document.cookie.split(';');
+
+                for(var i = 0 ; i < cookies.length ; ++i) {
+                    var pair = cookies[i].trim().split('=');
+
+                    if (pair[0] == name) {
+                        return pair[1];
+                    }
+                }
+
+                return null;
+            }
 
             // Fonction pour changer l'état d'un utilisateur
             function changeUserStatus(id) {
@@ -47,7 +79,13 @@
                     url: url,
                     data: datas,
                     success: function () {
-                        window.location.reload();
+                        Swal.fire({
+                            title: getCookie('reussi'),
+                            text: 'Cliquez sur "OK" pour recharger la page',
+                            icon: 'success'
+                        }).then(function(){
+                            location.reload();
+                        });
                     },
                     error: function (xhr, error, status_description) {
                         console.log(xhr.responseJSON);
@@ -68,7 +106,13 @@
                     url: url,
                     data: datas,
                     success: function () {
-                        window.location.reload();
+                        Swal.fire({
+                            title: getCookie('reussi'),
+                            text: 'Cliquez sur "OK" pour recharger la page',
+                            icon: 'success'
+                        }).then(function(){
+                            location.reload();
+                        });
                     },
                     error: function (xhr, error, status_description) {
                         console.log(xhr.responseJSON);
@@ -84,12 +128,20 @@
                 var element = document.getElementById(id);
                 var datas = {'objet' : 'etat_reservation', 'id_reservation' : parseInt(id.split('-')[1]), 'id_etat' : (element.getAttribute('aria-status') === 'Totalité' ? 4 : 5)};
 
+                sessionStorage.reloadAfterPageLoad = true;
+
                 $.ajax({
                     type: 'POST',
                     url: url,
                     data: datas,
                     success: function () {
-                        window.location.reload();
+                        Swal.fire({
+                            title: getCookie('reussi'),
+                            text: 'Cliquez sur "OK" pour recharger la page',
+                            icon: 'success'
+                        }).then(function(){
+                            location.reload();
+                        });
                     },
                     error: function (xhr, error, status_description) {
                         console.log(xhr.responseJSON);
@@ -100,14 +152,14 @@
                 });
             }
 
-            $(function () {
-                // jQuery DataTable
-                $('#dataList').DataTable({
-                    paging: 'matchMedia' in window ? (window.matchMedia('(min-width: 500px)').matches ? true : false) : false,
-                    ordering: false,
-                    info: 'matchMedia' in window ? (window.matchMedia('(min-width: 500px)').matches ? true : false) : false,
-                });
+            // DataTable
+            new DataTable('#dataList', {
+                'language': {
+                    "url": '../assets/js/dataTables.i18n.fr-FR.json'
+                }
+            });
 
+            $(function () {
                 // Auto-resize textarea
                 autosize($('textarea'));
             });

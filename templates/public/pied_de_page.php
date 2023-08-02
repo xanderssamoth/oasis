@@ -33,6 +33,21 @@
         <script src="./assets/js/sweetalert2.all.min.js"></script>
         <script src="./assets/js/main.js"></script>
         <script type="text/javascript">
+            // Fonction pour créer un cookie
+            function setCookie(name,value,days) {
+                var expires = "";
+
+                if (days) {
+                    var date = new Date();
+
+                    date.setTime(date.getTime() + (days*24*60*60*1000));
+
+                    expires = "; expires=" + date.toUTCString();
+                }
+
+                document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+            }
+
             // Fonction pour récupérer un cookie par son nom
             function getCookie(name) {
                 var cookies = document.cookie.split(';');
@@ -101,11 +116,11 @@
                 });
             }
 
-            // jQuery DataTable
-            $('#dataList').DataTable({
-                paging: 'matchMedia' in window ? (window.matchMedia('(min-width: 500px)').matches ? true : false) : false,
-                ordering: false,
-                info: 'matchMedia' in window ? (window.matchMedia('(min-width: 500px)').matches ? true : false) : false,
+            // DataTable
+            new DataTable('#dataList', {
+                'language': {
+                    "url": '../assets/js/dataTables.i18n.fr-FR.json'
+                }
             });
 
             // jQuery DatePicker
@@ -114,6 +129,14 @@
                 onSelect: function () {
                     $(this).focus();
                 }
+            });
+
+            // jQuery TimePicker
+            $('#register_heure_debut, #register_heure_fin').timepicker({
+                timeFormat: 'HH:mm:ss',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
             });
 
             /**

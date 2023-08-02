@@ -10,6 +10,7 @@ use app\table\Role;
 use app\table\Utilisateur;
 
 $compterRole = Role::compterTout();
+$compterEvenement = Evenement::compterTout();
 $listeEvenements = Evenement::trouverTout();
 ?>
 <!DOCTYPE html>
@@ -283,17 +284,21 @@ if (!isset($_SESSION['id'])) {
                         <div class="col-lg-6">
                             <div class="ap-title">
                                 <h2 class="mb-4">Bienvenue</h2>
-                                <p>La salle polyvalente Oasis oeuvre dans le service commercial avec comme but d'aider la population surtout ceux qui n'ont pas assez d'espace avec leur espace à bien faire leurs activités.</p>
+                                <p>La salle polyvalente Oasis &oelig;uvre dans le service commercial avec comme but d'aider la population surtout ceux qui n'ont pas assez d'espace avec leur espace à bien faire leurs activités.</p>
                             </div>
                         </div>
                         <div class="col-lg-5 offset-lg-1">
                             <ul class="ap-services">
 <?php
-foreach ($listeEvenements as $evenement):
+if ($compterEvenement[0]->nbr > 0) {
+    foreach ($listeEvenements as $evenement):
+        if ($evenement->id_etat == 1) {
 ?>
                                 <li><i class="icon_check"></i> <?= $evenement->nom_evenement ?></li>
 <?php
-endforeach;
+        }
+    endforeach;
+}
 ?>
                             </ul>
                         </div>

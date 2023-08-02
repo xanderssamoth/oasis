@@ -62,7 +62,7 @@ $listeReservations = Reservation::trouverToutesAvecDetails();
         <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 
         <style>
-            textarea {resize: none;} input {text-transform: inherit!important;} .contact-section textarea {width: 100%; padding: 1rem; border: 1px #ddd solid;}
+            textarea {resize: none;} input {text-transform: inherit!important;} .contact-section textarea {width: 100%; padding: 1rem; border: 1px #ddd solid;} .contact-section .toggle.ios, .contact-section .toggle-on.ios, .contact-section .toggle-off.ios { border-radius: 20rem; } .contact-section .toggle.ios .contact-section .toggle-handle { border-radius: 20rem; }
         </style>
 
         <title>
@@ -95,10 +95,10 @@ if ($_SERVER['PHP_SELF'] == $racineDossier . '/bookings.php') {
     </head>
 
     <body>
-        <!-- Page Preloder -->
+        <!-- Page Preloder
         <div id="preloder">
             <div class="loader"></div>
-        </div>
+        </div> -->
 
         <!-- Offcanvas Menu Section Begin -->
         <div class="offcanvas-menu-overlay"></div>
