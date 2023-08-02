@@ -62,8 +62,8 @@ foreach ($listeReservations as $reservation):
                                     </td>
                                     <td><?= $reservation->nom_even ?></td>
                                     <td><?= utf8_encode(strftime('%A %d %B %Y',strtotime($reservation->date_reserv))) ?></td>
-                                    <td><?= $reservation->heureDebut_reserv ?></td>
-                                    <td><?= $reservation->heureFin_reserv ?></td>
+                                    <td><?= date('H\hi\'', strtotime($reservation->heureDebut_reserv)) ?></td>
+                                    <td><?= date('H\hi\'', strtotime($reservation->heureFin_reserv)) ?></td>
                                     <td>
                                         <select id="price-<?= $reservation->id_reserv ?>" class="form-control pt-0" aria-status="<?= $reservation->nom_eta ?>" onchange="changeReservationStatus('price-<?= $reservation->id_reserv ?>')">
 <?php
