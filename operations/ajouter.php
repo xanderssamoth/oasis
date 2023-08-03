@@ -126,10 +126,17 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
     $heureFin = $_POST['register_heure_fin'];
     $idEtat = $_POST['id_etat'];
 
-    if ($date == null) {
+    if ($idEtat == null) {
         session_start();
 
-        $_SESSION['erreur'] = 'Veuillez choisir une date';
+        $_SESSION['erreur'] = 'Veuillez choisir le mode de paiement';
+
+        header('Location: ../booking');
+
+    } else if ($date == null) {
+        session_start();
+
+        $_SESSION['erreur'] = 'Veuillez donner la date de l\'événement';
 
         header('Location: ../booking');
 

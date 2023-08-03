@@ -27,14 +27,22 @@ require('../templates/public/entete.php')
         <section class="contact-section py-0">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-5 col-sm-7 mx-auto">
+                    <div class="col-lg-5 col-sm-5 offset-lg-1 d-sm-inline-block d-none">
+                        <div class="card bg-light z-depth-0">
+                            <div class="card-body d-flex justify-content-between">
+                                <h2><i class="fa fa-info-circle" style="color: #555;"></i></h2>
+                                <span class="d-inline-block ml-3 lead" style="color: #555;">Pour réserver une salle, veuillez choisir l'événement que vous voulez organiser, la date de cet événement, l'heure du début et l'heure de la fin de l'événement.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-sm-7">
                         <div class="booking-form pt-0">
                             <form method="POST" action="./operations/ajouter.php">
                                 <input type="hidden" name="objet" value="reservation">
                                 <input type="hidden" name="id_utilisateur" value="<?= $_SESSION['id'] ?>">
-                                <input type="hidden" name="id_etat" value="4">
 
-                                <div class="check-date">
+                                <div class="check-date pt-0">
                                     <label for="register_date" class="sr-only">Date de l'événement :</label>
                                     <input type="tel" name="register_date" id="register_date" placeholder="Date de l'événement">
                                 </div>
@@ -49,7 +57,7 @@ require('../templates/public/entete.php')
                                     <input type="tel" name="register_heure_fin" id="register_heure_fin" placeholder="Heure de fin">
                                 </div>
 
-                                <select name="id_evenement" id="id_evenement" class="form-control w-100 mb-3 pt-0">
+                                <select name="id_evenement" id="id_evenement" class="form-control w-100 h-100 mb-3">
                                     <option class="small" selected disabled>Choisir un événement</option>
 <?php
 if ($compterEvenement[0]->nbr > 0) {
@@ -62,7 +70,19 @@ if ($compterEvenement[0]->nbr > 0) {
     endforeach;
 }
 ?>
+                                </select>
 
+                                <select name="id_etat" id="id_etat" class="form-control w-100 h-100 mb-3">
+                                    <option class="small" selected disabled>Mode de paiement</option>
+<?php
+foreach ($listeEtats as $etat):
+    if ($etat->id > 3) {
+?>
+                                    <option value="<?= $etat->id ?>"><?= $etat->nom_etat ?></option>
+<?php
+    }
+endforeach;
+?>
                                 </select>
 
                                 <button type="submit" class="mt-0 mb-3">Enregistrer</button>

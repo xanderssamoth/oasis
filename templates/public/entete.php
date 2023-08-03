@@ -4,12 +4,14 @@ require '../app/Autoloader.php';
 
 app\Autoloader::register();
 
+use app\table\Etat;
 use app\table\Evenement;
 use app\table\Utilisateur;
 
 $racineDossier = '/oasis/public';
 $compterEvenement = Evenement::compterTout();
 $listeEvenements = Evenement::trouverTout();
+$listeEtats = Etat::trouverTout();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -153,7 +155,7 @@ if (isset($_SESSION['id'])) {
 ?>
             <div class="dropdown mt-4 search-switch">
                 <a href="#" role="button" class="btn dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                    <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : 'assets/img/user.png' ?>" alt="" width="40" class="user-image rounded-circle mr-2">
                     <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours[0]->prenom_util ?></span>
                 </a>
 
@@ -203,7 +205,7 @@ if (isset($_SESSION['id'])) {
 ?>
                                 <div class="dropdown nav-right search-switch">
                                     <a href="#" role="button" class="btn py-0 dropdown-toggle" id="menuProfil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : 'assets/img/user.png' ?>" alt="" width="40" class="photo-profil rounded-circle mr-2">
+                                        <img src="<?= $utilisateurEnCours[0]->profil_util != null ? $utilisateurEnCours[0]->profil_util : 'assets/img/user.png' ?>" alt="" width="40" class="user-image rounded-circle mr-2">
                                         <span class="d-inline-block align-middle text-dark"><?= $utilisateurEnCours[0]->prenom_util ?></span>
                                     </a>
 
