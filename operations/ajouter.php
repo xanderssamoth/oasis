@@ -157,7 +157,25 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
         header('Location: ../booking');
 
     } else {
+        // Formater la date selon la disposition de la base des données
         $dateFormatee = explode('/', $_POST['register_date'])[2] . '-' . explode('/', $_POST['register_date'])[1] . '-' . explode('/', $_POST['register_date'])[0];
+
+        foreach ($listeEventements as $autre_evenement):
+            // Si c'est une date passée, envoyer une erreur
+            if (strtotime($dateFormatee) < strtotime(date('Y-m-d'))) {
+                session_start();
+
+                $_SESSION['erreur'] = 'Les dates anciennes sont érronées';
+
+                header('Location: ../booking');
+            }
+
+            // On vérifie si la date et l'heure de débu/fin existent 
+            // déjà ou sont proche de celles qui existent
+            if ($dateFormatee == $autre_evenement->date) {
+                # code...
+            }
+        endforeach;
 
         Reservation::creer($idUtilisateur, $idEvenement, $dateFormatee, $heureDebut, $heureFin, $idEtat);
 

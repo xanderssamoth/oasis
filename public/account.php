@@ -53,7 +53,7 @@ if (isset($_GET['p']) && $_GET['p'] == 'update_password') {
                                 </div>
                                 <form method="post" class="position-absolute" style="bottom: 0.5rem; right: 1.2rem;">
                                     <input type="hidden" name="id_utilisateur" id="id_utilisateur" value="<?= $utilisateurEnCours[0]->id ?>">
-                                    <label for="avatar" class="btn btn-primary rounded-pill z-depth-0" title="Changer de profil" style="">
+                                    <label for="avatar" class="btn btn-primary rounded-pill z-depth-0" title="Changer de profil">
                                         <i class="fa fa-pencil mr-2"></i>Modifier
                                         <input type="file" name="avatar" id="avatar" class="d-none">
                                     </label>
