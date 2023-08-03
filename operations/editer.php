@@ -200,17 +200,27 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
 
 } else if (isset($_POST['objet']) && $_POST['objet'] === 'photo') {
     $idUtilisateur = $_POST['id_utilisateur'];
+    // Récupérer l'image en Base 64
     $data = $_POST['avatar'];
     $image_array_1 = explode(';', $data);
     $image_array_2 = explode(',', $image_array_1[1]);
     $data = base64_decode($image_array_2[1]);
-    $image_name = 'C:\\xampp\\htdocs\\img\\oasis\\' . Utility::randomStr() . '.png';
+    // Créer une chaine de caractère aléatoire pour nommer le nouveau fichier image
+    $randomString = Utility::randomStr();
+    // Lien réel vers le fichier image
+    $image_file =  'C:\\xampp\\htdocs\\img\\oasis\\' . $randomString . '.png';
+    // URL web pour accéder au fichier image
+    $image_url =  '/../img/oasis/' . $randomString . '.png';
 
-    file_put_contents($image_name, $data);
+    // Enregister le fichier image dans le dossier
+    file_put_contents($image_file, $data);
 
+    // Récupérer l'utilisateur en cours pour enregistrer l'URL web vers le fichier image
+    // dans la colonne "avatar_url" de la table "Utilisateur" de la base des données
     $utilisateurEnCours = Utilisateur::trouverParId($idUtilisateur);
 
-    Utilisateur::changerProfil($image_name, $utilisateurEnCours[0]->id);
+    // Enregistrement dans la colonne "avatar_url"
+    Utilisateur::changerProfil($image_url, $utilisateurEnCours[0]->id);
 
     return $utilisateurEnCours[0];
 }
