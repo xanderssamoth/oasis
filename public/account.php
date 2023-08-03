@@ -46,21 +46,21 @@ if (isset($_GET['p']) && $_GET['p'] == 'update_password') {
                 <div class="row">
                     <div class="col-lg-4 col-sm-5">
                         <div class="card border border-default z-depth-0 mb-4">
-                            <div class="card-body">
-                                <div class="bg-image px-lg-5">
-                                    <img src="<?= $utilisateurEnCours[0]->avatar_url != null ? $utilisateurEnCours[0]->avatar_url : './assets/img/user.png' ?>" alt="<?= $utilisateurEnCours[0]->prenom . ' ' . $utilisateurEnCours[0]->nom ?>" class="user-image img-fluid rounded-circle">
+                            <div class="card-body position-relative">
+                                <div class="bg-image px-lg-3">
+                                    <img src="<?= $utilisateurEnCours[0]->avatar_url != null ? $utilisateurEnCours[0]->avatar_url : './assets/img/user.png' ?>" alt="<?= $utilisateurEnCours[0]->prenom . ' ' . $utilisateurEnCours[0]->nom ?>" class="user-image img-fluid img-thumbnail rounded-circle">
                                     <div class="mask"></div>
                                 </div>
-                            </div>
-
-                            <div class="card-body pt-0">
-                                <form method="post">
+                                <form method="post" class="position-absolute" style="bottom: 0.5rem; right: 1.2rem;">
                                     <input type="hidden" name="id_utilisateur" id="id_utilisateur" value="<?= $utilisateurEnCours[0]->id ?>">
-                                    <label for="avatar" class="btn btn-block btn-primary z-depth-0">
-                                        <i class="fa fa-pencil-alt me-2"></i> Modifier
+                                    <label for="avatar" class="btn btn-primary rounded-pill z-depth-0" title="Changer de profil" style="">
+                                        <i class="fa fa-pencil mr-2"></i>Modifier
                                         <input type="file" name="avatar" id="avatar" class="d-none">
                                     </label>
                                 </form>
+                            </div>
+
+                            <div class="card-body pt-0">
                                 <a href="./bookings" class="btn btn-block btn-secondary my-2 z-depth-0">Mes réservations</a>
                                 <p class="mb-0 text-center text-uppercase">
                                     <a href="?p=update_password" class="btn-link">Changer mot de passe</a>

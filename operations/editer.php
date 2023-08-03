@@ -207,10 +207,16 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'role') {
     $data = base64_decode($image_array_2[1]);
     // Créer une chaine de caractère aléatoire pour nommer le nouveau fichier image
     $randomString = Utility::randomStr();
+
+    // Créer un dossier ayant comme nom l'ID de l'utilisateur n'existe pas
+    // Si et seulement si le dossier n'exite pas.
+    if (!is_dir('C:\\xampp\\htdocs\\img\\oasis\\' . $idUtilisateur)) {
+        mkdir('C:\\xampp\\htdocs\\img\\oasis\\' . $idUtilisateur);
+    }
     // Lien réel vers le fichier image
-    $image_file =  'C:\\xampp\\htdocs\\img\\oasis\\' . $randomString . '.png';
+    $image_file =  'C:\\xampp\\htdocs\\img\\oasis\\' . $idUtilisateur . '\\' . $randomString . '.png';
     // URL web pour accéder au fichier image
-    $image_url =  '/../img/oasis/' . $randomString . '.png';
+    $image_url =  '/../img/oasis/' . $idUtilisateur . '/' . $randomString . '.png';
 
     // Enregister le fichier image dans le dossier
     file_put_contents($image_file, $data);

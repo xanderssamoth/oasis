@@ -125,6 +125,8 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
     $heureDebut = $_POST['register_heure_debut'];
     $heureFin = $_POST['register_heure_fin'];
     $idEtat = $_POST['id_etat'];
+    // Sélectionner les réservation pour vérifier si l'enregistrement en cours est déjà pris
+    $listeEventements = Evenement::trouverTout();
 
     if ($idEtat == null) {
         session_start();
