@@ -1,5 +1,5 @@
 <?php
-
+print_r((int) '01' - (int) '08');die;
 /* 
  * File: ajouter
  * author: Ketsia
@@ -149,7 +149,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
 
         header('Location: ../booking');
 
-    } else if ($heureDebut == null OR $heureDebut == null) {
+    } else if ($heureDebut == null OR $heureFin == null) {
         session_start();
 
         $_SESSION['erreur'] = 'Heure de début et de fin obligatoires';
@@ -170,10 +170,25 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
                 header('Location: ../booking');
             }
 
-            // On vérifie si la date et l'heure de débu/fin existent 
-            // déjà ou sont proche de celles qui existent
-            if ($dateFormatee == $autre_evenement->date) {
-                # code...
+            // Si la date a déjà été choisi par l'un des clients
+            if (strtotime($dateFormatee) == strtotime($autre_evenement->date)) {
+                // Si l'heure de début existe, on renvoit une erreur
+                if ($heureDebut == $autre_evenement->heure_debut OR $heureFin == $autre_evenement->heure_fin) {
+                    session_start();
+
+                    $_SESSION['erreur'] = 'Cette heure est déjà choisie';
+    
+                    header('Location: ../booking');
+                }
+
+                // Si l'heure choisi se trouve dans l'intervalle entre une heure de début et de fin, renvoyer une erreur
+                if ($heureDebut == $autre_evenement->heure_debut OR $heureFin == $autre_evenement->heure_fin) {
+                    session_start();
+
+                    $_SESSION['erreur'] = 'Cette heure est déjà choisie';
+    
+                    header('Location: ../booking');
+                }
             }
         endforeach;
 
