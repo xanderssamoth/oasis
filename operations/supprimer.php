@@ -57,7 +57,7 @@ if (isset($_GET['objet']) && $_GET['objet'] === 'role') {
 
     session_start();
 
-    $_SESSION['reussi'] = 'Evénement supprimé';
+    $_SESSION['reussi'] = 'Réservation supprimée';
 
     header('Location: ../bookings');
 

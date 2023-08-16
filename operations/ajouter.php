@@ -159,44 +159,86 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
         // Formater la date selon la disposition de la base des données
         $dateFormatee = explode('/', $_POST['register_date'])[2] . '-' . explode('/', $_POST['register_date'])[1] . '-' . explode('/', $_POST['register_date'])[0];
 
-        foreach ($listeReservations as $autre_reservation):
-            // Si c'est une date passée, envoyer une erreur
-            if (strtotime($dateFormatee) < strtotime(date('Y-m-d'))) {
-                session_start();
+        // Si c'est une date passée, envoyer une erreur
+        if (strtotime($dateFormatee) < strtotime(date('Y-m-d'))) {
+            session_start();
 
-                $_SESSION['erreur'] = 'Les dates anciennes sont érronées';
+            $_SESSION['erreur'] = 'Les dates anciennes sont érronées';
 
-                header('Location: ../booking');
+            header('Location: ../booking');
+        }
 
-            // Si la date existe
-            } else if (strtotime($dateFormatee) == strtotime($autre_reservation->date)) {
-                // Si l'heure choisi existe déjà
-                if ($heureDebut == $autre_reservation->heure_debut OR $heureFin == $autre_reservation->heure_fin) {
-                    session_start();
+        // La date est supérieure ou égale à aujourd'hui
+        if (strtotime($dateFormatee) >= strtotime(date('Y-m-d'))) {
+            foreach ($listeReservations as $autre_reservation):
+                // Si la date existe
+                if (strtotime($dateFormatee) == strtotime($autre_reservation->date)) {
+                    // Si l'heure choisi existe déjà
+                    if ($heureDebut == $autre_reservation->heure_debut OR $heureFin == $autre_reservation->heure_fin) {
+                        session_start();
 
-                    $_SESSION['erreur'] = 'Cette heure est déjà choisie';
-    
-                    header('Location: ../booking');
+                        $_SESSION['erreur'] = 'Cette heure est déjà choisie';
+        
+                        header('Location: ../booking');
+                    }
+
+                    // Si l'heure choisi se trouve dans l'intervalle entre une heure de début existante et de fin existante, renvoyer une erreur
+                    if (strtotime($heureDebut) >= strtotime($autre_reservation->heure_debut) AND strtotime($heureFin) <= strtotime($autre_reservation->heure_fin)
+                        OR strtotime($heureDebut) == strtotime($autre_reservation->heure_debut) AND strtotime($heureFin) > strtotime($autre_reservation->heure_fin)
+                        OR strtotime($heureDebut) > strtotime($autre_reservation->heure_debut) AND strtotime($heureFin) <= strtotime($autre_reservation->heure_fin)) {
+                        session_start();
+
+                        $_SESSION['erreur'] = 'Veuillez choisir une heure au-delà de ' . $autre_reservation->heure_fin;
+
+                        header('Location: ../booking');
+                    }
+
+                    // Si l'heure de début choisie est supérieure à une heure de début existante, mais l'heure de fin est égale à l'heure de début
+                    if (strtotime($heureDebut) > strtotime($autre_reservation->heure_debut) AND strtotime($heureFin) == strtotime($autre_reservation->heure_debut)) {
+                        session_start();
+
+                        $_SESSION['erreur'] = 'A cette heure de fin, un autre événement doit commencer';
+
+                        header('Location: ../booking');
+                    }
+
+                    // Si l'heure de début et de fin choisies sont supérieures à une heure de début existante
+                    if (strtotime($heureDebut) < strtotime($autre_reservation->heure_debut) AND strtotime($heureFin) < strtotime($autre_reservation->heure_debut)) {
+                        Reservation::creer($idUtilisateur, $idEvenement, $dateFormatee, $heureDebut, $heureFin, $idEtat);
+
+                        session_start();
+
+                        $_SESSION['reussi'] = 'Réservation enregistrée';
+
+                        header('Location: ../bookings');
+                        die();
+                    }
+
+                    // Si l'heure de début et de fin choisies sont supérieures à une heure de début existante
+                    if (strtotime($heureDebut) > strtotime($autre_reservation->heure_debut) AND strtotime($heureFin) > strtotime($autre_reservation->heure_debut)) {
+                        Reservation::creer($idUtilisateur, $idEvenement, $dateFormatee, $heureDebut, $heureFin, $idEtat);
+
+                        session_start();
+
+                        $_SESSION['reussi'] = 'Réservation enregistrée';
+
+                        header('Location: ../bookings');
+                        die();
+                    }
                 }
 
-                // Si l'heure choisi se trouve dans l'intervalle entre une heure de début et de fin, renvoyer une erreur
-                if (strtotime($heureDebut) >= strtotime($autre_reservation->heure_debut) AND strtotime($heureFin) <= strtotime($autre_reservation->heure_fin)) {
+                // La date est supérieure aux dates existantes
+                if (strtotime($dateFormatee) > strtotime($autre_reservation->date)) {
+                    Reservation::creer($idUtilisateur, $idEvenement, $dateFormatee, $heureDebut, $heureFin, $idEtat);
+
                     session_start();
 
-                    $_SESSION['erreur'] = 'Veuillez choisir une heure au-delà de ' . $autre_reservation->heure_fin;
+                    $_SESSION['reussi'] = 'Réservation enregistrée';
 
-                    header('Location: ../booking');
+                    header('Location: ../bookings');
+                    die();
                 }
-
-            } else {
-                Reservation::creer($idUtilisateur, $idEvenement, $dateFormatee, $heureDebut, $heureFin, $idEtat);
-
-                session_start();
-
-                $_SESSION['reussi'] = 'Réservation enregistrée';
-
-                header('Location: ../bookings');
-            }
-        endforeach;
+            endforeach;
+        }
     }
 }

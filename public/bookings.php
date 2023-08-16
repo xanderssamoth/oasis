@@ -42,6 +42,7 @@ $listeReservations = Reservation::trouverToutesAvecDetailsParIdUtilisateur($_SES
                                     <th class="text-uppercase">Débute à</th>
                                     <th class="text-uppercase">Termine à</th>
                                     <th class="text-uppercase">Montant payé</th>
+                                    <th class="text-uppercase"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,6 +76,11 @@ foreach ($listeReservations as $reservation):
     }
 ?>
                                         </select>
+                                    </td>
+                                    <td>
+                                        <a href="javascript: return false;" class="btn btn-lg btn-transparent p-0" onclick="event.preventDefault(); deleteData('operations/supprimer.php?objet=reservation&id=<?= $reservation->id_reserv ?>');">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
                                     </td>
                                 </tr>
 <?php

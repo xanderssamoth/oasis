@@ -34,6 +34,9 @@
         <script src="./assets/js/sweetalert2.all.min.js"></script>
         <script src="./assets/js/main.js"></script>
         <script type="text/javascript">
+            // Hôte en cours
+            var currentHost = 'http://localhost:7882/oasis';
+
             // Fonction pour créer un cookie
             function setCookie(name,value,days) {
                 var expires = "";
@@ -79,25 +82,24 @@
                 }).then(function (result) {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: url,
+                            url: currentHost + '/' + url,
                             method: 'GET',
-                            data: { 'id' : id },
                             success: function (data) {
-                                if (!getCookie('reussi')) {
-                                    Swal.fire({
-                                        title: 'Oups !',
-                                        text: 'Erreur de suppression',
-                                        icon: 'error'
-                                    });
+                                // if (!getCookie('reussi')) {
+                                //     Swal.fire({
+                                //         title: 'Oups !',
+                                //         text: 'Erreur de suppression',
+                                //         icon: 'error'
+                                //     });
 
-                                } else {
+                                // } else {
                                     Swal.fire({
                                         title: 'Parfait',
                                         text: getCookie('reussi'),
                                         icon: 'success'
                                     });
                                     location.reload();
-                                }
+                                // }
                             },
                             error: function (xhr, error, status_description) {
                                 console.log(xhr.responseJSON);
@@ -143,7 +145,6 @@
             /**
              * Codes pour uploader une image recadrée
              */
-            var currentHost = 'http://localhost:7882/oasis';
             var retrievedAvatar = document.getElementById('retrieved_image');
             var cropper;
 
