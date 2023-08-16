@@ -15,7 +15,7 @@ class Utility {
         string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     ): string {
         if ($length < 1) {
-            throw new \RangeException("La longueur des caractères doit être positive.");
+            throw new \RangeException('La longueur des caractères doit être positive.');
         }
 
         $pieces = [];
@@ -28,6 +28,7 @@ class Utility {
         return implode('', $pieces);
     }
 
+    // Formatter le nombre supérieur à 999 en mettant des espaces après 3 chiffres
     public static function formatNumber($number) : string {
         return number_format($number, 0, ',', ' ');
     }

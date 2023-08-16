@@ -1,5 +1,4 @@
 <?php
-print_r((int) '01' - (int) '08');die;
 /* 
  * File: ajouter
  * author: Ketsia
@@ -126,7 +125,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
     $heureFin = $_POST['register_heure_fin'];
     $idEtat = $_POST['id_etat'];
     // Sélectionner les réservation pour vérifier si l'enregistrement en cours est déjà pris
-    $listeEventements = Evenement::trouverTout();
+    $listeReservations = Reservation::trouverTout();
 
     if ($idEtat == null) {
         session_start();
@@ -160,7 +159,7 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
         // Formater la date selon la disposition de la base des données
         $dateFormatee = explode('/', $_POST['register_date'])[2] . '-' . explode('/', $_POST['register_date'])[1] . '-' . explode('/', $_POST['register_date'])[0];
 
-        foreach ($listeEventements as $autre_evenement):
+        foreach ($listeReservations as $autre_reservation):
             // Si c'est une date passée, envoyer une erreur
             if (strtotime($dateFormatee) < strtotime(date('Y-m-d'))) {
                 session_start();
@@ -168,12 +167,11 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
                 $_SESSION['erreur'] = 'Les dates anciennes sont érronées';
 
                 header('Location: ../booking');
-            }
 
-            // Si la date a déjà été choisi par l'un des clients
-            if (strtotime($dateFormatee) == strtotime($autre_evenement->date)) {
-                // Si l'heure de début existe, on renvoit une erreur
-                if ($heureDebut == $autre_evenement->heure_debut OR $heureFin == $autre_evenement->heure_fin) {
+            // Si la date existe
+            } else if (strtotime($dateFormatee) == strtotime($autre_reservation->date)) {
+                // Si l'heure choisi existe déjà
+                if ($heureDebut == $autre_reservation->heure_debut OR $heureFin == $autre_reservation->heure_fin) {
                     session_start();
 
                     $_SESSION['erreur'] = 'Cette heure est déjà choisie';
@@ -182,22 +180,23 @@ if (isset($_POST['objet']) && $_POST['objet'] === 'admin') {
                 }
 
                 // Si l'heure choisi se trouve dans l'intervalle entre une heure de début et de fin, renvoyer une erreur
-                if ($heureDebut == $autre_evenement->heure_debut OR $heureFin == $autre_evenement->heure_fin) {
+                if (strtotime($heureDebut) >= strtotime($autre_reservation->heure_debut) AND strtotime($heureFin) <= strtotime($autre_reservation->heure_fin)) {
                     session_start();
 
-                    $_SESSION['erreur'] = 'Cette heure est déjà choisie';
-    
+                    $_SESSION['erreur'] = 'Veuillez choisir une heure au-delà de ' . $autre_reservation->heure_fin;
+
                     header('Location: ../booking');
                 }
+
+            } else {
+                Reservation::creer($idUtilisateur, $idEvenement, $dateFormatee, $heureDebut, $heureFin, $idEtat);
+
+                session_start();
+
+                $_SESSION['reussi'] = 'Réservation enregistrée';
+
+                header('Location: ../bookings');
             }
         endforeach;
-
-        Reservation::creer($idUtilisateur, $idEvenement, $dateFormatee, $heureDebut, $heureFin, $idEtat);
-
-        session_start();
-
-        $_SESSION['reussi'] = 'Réservation enregistrée';
-
-        header('Location: ../bookings');
     }
 }
